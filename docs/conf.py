@@ -19,14 +19,14 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u'compute_rhino3d'
+project = u'compute.rhino3d.js'
 copyright = u'2019, Robert McNeel & Associates'
 author = u'Robert McNeel & Associates'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'0.5.0'
+release = u'0.5.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -101,7 +101,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'compute_rhino3ddoc'
+htmlhelp_basename = 'compute.rhino3d.jsdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -128,7 +128,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'compute_rhino3d.tex', u'compute\\_rhino3d Documentation',
+    (master_doc, 'compute_rhino3d.tex', u'compute\\.rhino3d Documentation',
      u'Robert McNeel \\& Associates', 'manual'),
 ]
 
@@ -138,7 +138,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'compute_rhino3d', u'compute_rhino3d Documentation',
+    (master_doc, 'compute.rhino3d.js', u'compute.rhino3d.js Documentation',
      [author], 1)
 ]
 

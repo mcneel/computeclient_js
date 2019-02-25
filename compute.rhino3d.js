@@ -1,5 +1,12 @@
+// check if we're running in a browser or in node.js
+let _is_node = typeof exports === 'object' && typeof module === 'object'
+
+// (node.js) polyfill fetch
+if (_is_node && typeof fetch !== 'function' && typeof require === 'function')
+    fetch = require('node-fetch')
+
 var RhinoCompute = {
-    version: "0.5.1",
+    version: "0.5.2",
 
     url: "https://compute.rhino3d.com/",
 
@@ -3348,6 +3355,6 @@ var RhinoCompute = {
     },
 };
 
-// export RhinoCompute object if node.js
-if (typeof exports === 'object' && typeof module === 'object')
+// (node.js) export RhinoCompute object
+if (_is_node)
     module.exports = RhinoCompute;

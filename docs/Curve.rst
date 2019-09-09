@@ -679,6 +679,25 @@ RhinoCompute.Curve
 
    :return: True if a solution is found, False otherwise.
    :rtype: bool
+.. js:function:: RhinoCompute.Curve.inflectionPoints(thisCurve, multiple=false)
+
+   Returns a curve's inflection points. An inflection point is a location on
+   a curve at which the sign of the curvature (i.e., the concavity) changes.
+   The curvature at these locations is always 0.
+
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of points if successful, None if not successful or on error.
+   :rtype: rhino3dm.Point3d[]
+.. js:function:: RhinoCompute.Curve.maxCurvaturePoints(thisCurve, multiple=false)
+
+   Returns a curve's maximum curvature points. The maximum curvature points identify
+   where the curvature starts to decrease in both directions from the points.
+
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of points if successful, None if not successful or on error.
+   :rtype: rhino3dm.Point3d[]
 .. js:function:: RhinoCompute.Curve.makeClosed(thisCurve, tolerance, multiple=false)
 
    If IsClosed, just return true. Otherwise, decide if curve can be closed as
@@ -693,6 +712,18 @@ RhinoCompute.Curve
    :return: True on success, False on failure.
    :rtype: bool
 .. js:function:: RhinoCompute.Curve.lcoalClosestPoint(thisCurve, testPoint, seed, multiple=false)
+
+   Find parameter of the point on a curve that is locally closest to
+   the testPoint.  The search for a local close point starts at
+   a seed parameter.
+
+   :param rhino3dm.Point3d testPoint: A point to test against.
+   :param float seed: The seed parameter.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if the search is successful, False if the search fails.
+   :rtype: bool
+.. js:function:: RhinoCompute.Curve.localClosestPoint(thisCurve, testPoint, seed, multiple=false)
 
    Find parameter of the point on a curve that is locally closest to
    the testPoint.  The search for a local close point starts at
@@ -1303,16 +1334,11 @@ RhinoCompute.Curve
    Returns a geometrically equivalent PolyCurve.
    The PolyCurve has the following properties
    1. All the PolyCurve segments are LineCurve, PolylineCurve, ArcCurve, or NurbsCurve.
-   
    2. The Nurbs Curves segments do not have fully multiple interior knots.
-   
    3. Rational Nurbs curves do not have constant weights.
-   
    4. Any segment for which IsLinear() or IsArc() is True is a Line,
    Polyline segment, or an Arc.
-   
    5. Adjacent Colinear or Cocircular segments are combined.
-   
    6. Segments that meet with G1-continuity have there ends tuned up so
    that they meet with G1-continuity to within machine precision.
 

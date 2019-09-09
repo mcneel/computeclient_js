@@ -263,13 +263,33 @@ RhinoCompute.Surface
    :rtype: rhino3dm.Surface
 .. js:function:: RhinoCompute.Surface.interpolatedCurveOnSurfaceUV(thisSurface, points, tolerance, multiple=false)
 
-   Constructs an interpolated curve on a surface, using 2D surface points.
+   Returns a curve that interpolates points on a surface. The interpolant lies on the surface.
 
-   :param System.Collections.Generic.IEnumerable<Point2d> points: A list, an array or any enumerable set of 2D points.
-   :param float tolerance: A tolerance value.
+   :param System.Collections.Generic.IEnumerable<Point2d> points: List of at least two UV parameter locations on the surface.
+   :param float tolerance: Tolerance used for the fit of the pushup curve. Generally, the resulting interpolating curve will be within tolerabce of the surface.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: A new nurbs curve, or None on error.
+   :return: A new NURBS curve if successful, or None on error.
+   :rtype: rhino3dm.NurbsCurve
+.. js:function:: RhinoCompute.Surface.interpolatedCurveOnSurfaceUV1(thisSurface, points, tolerance, closed, closedSurfaceHandling, multiple=false)
+
+   Returns a curve that interpolates points on a surface. The interpolant lies on the surface.
+
+   :param System.Collections.Generic.IEnumerable<Point2d> points: List of at least two UV parameter locations on the surface.
+   :param float tolerance: Tolerance used for the fit of the pushup curve. Generally, the resulting interpolating curve will be within tolerabce of the surface.
+   :param bool closed: If false, the interpolating curve is not closed. If true, the interpolating curve is closed, and the last point and first point should generally not be equal.
+   :param int closedSurfaceHandling: If 0, all points must be in the rectangular domain of the surface. If the surface is closed in some direction, \
+      then this routine will interpret each point and place it at an appropriate location in the the covering space. \
+      This is the simplest option and should give good results. \
+      If 1, then more options for more control of handling curves going across seams are available. \
+      If the surface is closed in some direction, then the points are taken as points in the covering space. \
+      Example, if srf.IsClosed(0)=True and srf.IsClosed(1)=False and srf.Domain(0)=srf.Domain(1)=Interval(0,1) \
+      then if closedSurfaceHandling=1 a point(u, v) in points can have any value for the u coordinate, but must have 0<=v<=1. \
+      In particular, if points = { (0.0,0.5), (2.0,0.5) } then the interpolating curve will wrap around the surface two times in the closed direction before ending at start of the curve. \
+      If closed=True the last point should equal the first point plus an integer multiple of the period on a closed direction.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A new NURBS curve if successful, or None on error.
    :rtype: rhino3dm.NurbsCurve
 .. js:function:: RhinoCompute.Surface.interpolatedCurveOnSurface(thisSurface, points, tolerance, multiple=false)
 

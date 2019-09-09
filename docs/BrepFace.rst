@@ -32,6 +32,17 @@ RhinoCompute.BrepFace
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :rtype: rhino3dm.Brep
+.. js:function:: RhinoCompute.BrepFace.shrinkSurfaceToEdge(thisBrepFace, multiple=false)
+
+   Shrinks the underlying untrimmed surface of this Brep face right to the trimming boundaries.
+   Note, shrinking the trimmed surface can sometimes cause problems later since having
+   the edges so close to the trimming boundaries can cause commands that use the surface
+   edges as input to fail.
+
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True on success, False on failure.
+   :rtype: bool
 .. js:function:: RhinoCompute.BrepFace.split(thisBrepFace, curves, tolerance, multiple=false)
 
    Split this face using 3D trimming curves.

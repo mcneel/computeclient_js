@@ -50,6 +50,25 @@ RhinoCompute.NurbsCurve
 
    :return: NURBS curve approximation of an arc on success
    :rtype: rhino3dm.NurbsCurve
+.. js:function:: RhinoCompute.NurbsCurve.createHSpline(points, multiple=false)
+
+   Construct an H-spline from a sequence of interpolation points
+
+   :param list[rhino3dm.Point3d] points: Points to interpolate
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :rtype: rhino3dm.NurbsCurve
+.. js:function:: RhinoCompute.NurbsCurve.createHSpline1(points, startTangent, endTangent, multiple=false)
+
+   Construct an H-spline from a sequence of interpolation points and
+   optional start and end derivative information
+
+   :param list[rhino3dm.Point3d] points: Points to interpolate
+   :param rhino3dm.Vector3d startTangent: Unit tangent vector or Unset
+   :param rhino3dm.Vector3d endTangent: Unit tangent vector or Unset
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :rtype: rhino3dm.NurbsCurve
 .. js:function:: RhinoCompute.NurbsCurve.createFromCircle(circle, degree, cvCount, multiple=false)
 
    Create a uniform non-ratonal cubic NURBS approximation of a circle.
@@ -85,12 +104,21 @@ RhinoCompute.NurbsCurve
 
    :return: True on success, False on failure.
    :rtype: bool
+.. js:function:: RhinoCompute.NurbsCurve.grevillePoints(thisNurbsCurve, all, multiple=false)
+
+   Gets Greville points for this curve.
+
+   :param bool all: If true, then all Greville points are returnd. If false, only edit points are returned.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A list of points if successful, None otherwise.
+   :rtype: Point3dList
 .. js:function:: RhinoCompute.NurbsCurve.setGrevillePoints(thisNurbsCurve, points, multiple=false)
 
-   Sets all Greville (Edit) points for this curve.
+   Sets all Greville edit points for this curve.
 
    :param list[rhino3dm.Point3d] points: The new point locations. The number of points should match \
-      the number of point returned by NurbsCurve.GrevillePoints().
+      the number of point returned by NurbsCurve.GrevillePoints(false).
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: True if successful, False otherwise.

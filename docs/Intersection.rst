@@ -188,13 +188,16 @@ RhinoCompute.Intersection
 
    :return: An array of intersection line segments, or null.
    :rtype: Line[]
-.. js:function:: RhinoCompute.Intersection.meshMesh(meshes, tolerance, mode, multiple=false)
+.. js:function:: RhinoCompute.Intersection.meshMesh(meshes, tolerance, mode, performPreprocessing, textLog, multiple=false)
 
    Intersects two meshes. Overlaps and perforations are handled in the output list.
 
    :param list[rhino3dm.Mesh] meshes: The mesh input list. It cannot be null.
-   :param float tolerance: A tolerance value. If negative, the positive value will be used.
+   :param float tolerance: A tolerance value. If negative, the positive value will be used. \
+      WARNING! Good tolerance values are in the magnitude of 10^-7, or RhinoMath.SqrtEpsilon*10.
+   :param bool performPreprocessing: Indicates if preprocessing should be executed.
    :param SetsCombinations mode: The required working mode.
+   :param FileIO.TextLog textLog: A text log, or null.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: An array of both intersects, and overlaps.
@@ -205,7 +208,8 @@ RhinoCompute.Intersection
 
    :param rhino3dm.Mesh meshA: First mesh for intersection.
    :param rhino3dm.Mesh meshB: Second mesh for intersection.
-   :param float tolerance: Intersection tolerance.
+   :param float tolerance: A tolerance value. If negative, the positive value will be used. \
+      WARNING! Good tolerance values are in the magnitude of 10^-7, or RhinoMath.SqrtEpsilon*10.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: An array of intersection polylines.

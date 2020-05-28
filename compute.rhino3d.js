@@ -1,13 +1,11 @@
 var RhinoCompute = {
-    version: "0.9.0",
-
+    version: "0.10.0",
     url: "https://compute.rhino3d.com/",
-
     authToken: null,
 
     getAuthToken: function(useLocalStorage=true) {
-        var auth = null;
-        if( useLocalStorage )
+        let auth = null;
+        if (useLocalStorage)
             auth = localStorage["compute_auth"];
         if (auth == null) {
             auth = window.prompt("Rhino Accounts auth token\nVisit https://www.rhino3d.com/compute/login");
@@ -3627,14 +3625,13 @@ var RhinoCompute = {
             }
 
             append(path, items) {
-                // Append a path to this tree
-                //
-                // Args:
-                //     path (arr): a list of integers defining a path
-                //     items (arr): list of data to add to the tree
-
-                var key = path.join(';')
-                var innerTreeData = []
+                /**
+                 * Append a path to this tree
+                 * @param path (arr): a list of integers defining a path
+                 * @param items (arr): list of data to add to the tree
+                 */
+                let key = path.join(';')
+                let innerTreeData = []
                 items.forEach(item => {
                     innerTreeData.push({ 'data': item })
                 })
@@ -3642,28 +3639,32 @@ var RhinoCompute = {
             }
         },
         evaluateDefinition : function(definition, trees) {
-            // Evaluate a grasshopper definition on the compute server.
-            //
-            // Args:
-            //     definition (str/bytearray): contents of .gh/.ghx file
-            //     trees (arr): list of DataTree instances
-            // Returns:
+            /**
+             * Evaluate a grasshopper definition
+             * @param definition (str|bytearray) contents of .gh/.ghx file or
+             *   url pointing to a grasshopper definition file
+             * @param trees (arr) list of DataTree instances
+             */
 
-            var url = 'grasshopper';
-            args = { 'algo': null, 'pointer': null, 'values': null };
-
+            let url = 'grasshopper';
+            let args = { 'algo': null, 'pointer': null, 'values': null };
             if (definition.constructor === Uint8Array)
                 args['algo'] = base64ByteArray(definition)
-            else
-                args['algo'] = btoa(definition);
+            else {
+                if (definition.startsWith("http")) {
+                    args['pointer'] = definition;
+                } else {
+                    args['algo'] = btoa(definition);
+                }
+            }
 
-            var values = [];
+            let values = [];
             trees.forEach(tree => {
                 values.push(tree.data);
             });
             args['values'] = values;
 
-            var promise = RhinoCompute.computeFetch(url, args);
+            let promise = RhinoCompute.computeFetch(url, args);
             return promise;
         }
     }
@@ -3677,7 +3678,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 function base64ByteArray(bytes) {
     var base64    = ''
     var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'

@@ -62,8 +62,19 @@ RhinoCompute.Intersection
 
    :param rhino3dm.Curve curveA: First curve for intersection.
    :param rhino3dm.Curve curveB: Second curve for intersection.
-   :param float tolerance: Intersection tolerance. If the curves approach each other to within tolerance, \
-      an intersection is assumed.
+   :param float tolerance: Intersection tolerance. If the curves approach each other to within tolerance, an intersection is assumed.
+   :param float overlapTolerance: The tolerance with which the curves are tested.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A collection of intersection events.
+   :rtype: CurveIntersections
+.. js:function:: RhinoCompute.Intersection.curveCurveValidate(curveA, curveB, tolerance, overlapTolerance, multiple=false)
+
+   Finds the intersections between two curves.
+
+   :param rhino3dm.Curve curveA: First curve for intersection.
+   :param rhino3dm.Curve curveB: Second curve for intersection.
+   :param float tolerance: Intersection tolerance. If the curves approach each other to within tolerance, an intersection is assumed.
    :param float overlapTolerance: The tolerance with which the curves are tested.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -74,9 +85,8 @@ RhinoCompute.Intersection
    Intersects a curve and an infinite line.
 
    :param rhino3dm.Curve curve: Curve for intersection.
-   :param Line line: Infinite line to intesect.
-   :param float tolerance: Intersection tolerance. If the curves approach each other to within tolerance, \
-      an intersection is assumed.
+   :param Line line: Infinite line to intersect.
+   :param float tolerance: Intersection tolerance. If the curves approach each other to within tolerance, an intersection is assumed.
    :param float overlapTolerance: The tolerance with which the curves are tested.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -88,8 +98,19 @@ RhinoCompute.Intersection
 
    :param rhino3dm.Curve curve: Curve for intersection.
    :param rhino3dm.Surface surface: Surface for intersection.
-   :param float tolerance: Intersection tolerance. If the curve approaches the surface to within tolerance, \
-      an intersection is assumed.
+   :param float tolerance: Intersection tolerance. If the curve approaches the surface to within tolerance, an intersection is assumed.
+   :param float overlapTolerance: The tolerance with which the curves are tested.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A collection of intersection events.
+   :rtype: CurveIntersections
+.. js:function:: RhinoCompute.Intersection.curveSurfaceValidate(curve, surface, tolerance, overlapTolerance, multiple=false)
+
+   Intersects a curve and a surface.
+
+   :param rhino3dm.Curve curve: Curve for intersection.
+   :param rhino3dm.Surface surface: Surface for intersection.
+   :param float tolerance: Intersection tolerance. If the curve approaches the surface to within tolerance, an intersection is assumed.
    :param float overlapTolerance: The tolerance with which the curves are tested.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -97,13 +118,25 @@ RhinoCompute.Intersection
    :rtype: CurveIntersections
 .. js:function:: RhinoCompute.Intersection.curveSurface1(curve, curveDomain, surface, tolerance, overlapTolerance, multiple=false)
 
-   Intersects a (sub)curve and a surface.
+   Intersects a sub-curve and a surface.
 
    :param rhino3dm.Curve curve: Curve for intersection.
-   :param rhino3dm.Interval curveDomain: Domain of surbcurve to take into consideration for Intersections.
+   :param rhino3dm.Interval curveDomain: Domain of sub-curve to take into consideration for Intersections.
    :param rhino3dm.Surface surface: Surface for intersection.
-   :param float tolerance: Intersection tolerance. If the curve approaches the surface to within tolerance, \
-      an intersection is assumed.
+   :param float tolerance: Intersection tolerance. If the curve approaches the surface to within tolerance, an intersection is assumed.
+   :param float overlapTolerance: The tolerance with which the curves are tested.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A collection of intersection events.
+   :rtype: CurveIntersections
+.. js:function:: RhinoCompute.Intersection.curveSurfaceValidate1(curve, curveDomain, surface, tolerance, overlapTolerance, multiple=false)
+
+   Intersects a sub-curve and a surface.
+
+   :param rhino3dm.Curve curve: Curve for intersection.
+   :param rhino3dm.Interval curveDomain: Domain of sub-curve to take into consideration for Intersections.
+   :param rhino3dm.Surface surface: Surface for intersection.
+   :param float tolerance: Intersection tolerance. If the curve approaches the surface to within tolerance, an intersection is assumed.
    :param float overlapTolerance: The tolerance with which the curves are tested.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -180,31 +213,17 @@ RhinoCompute.Intersection
    :rtype: bool
 .. js:function:: RhinoCompute.Intersection.meshMeshFast(meshA, meshB, multiple=false)
 
-   Quickly intersects two meshes. Overlaps and near misses are ignored.
+   This is an old overload kept for compatibility. Overlaps and near misses are ignored.
 
    :param rhino3dm.Mesh meshA: First mesh for intersection.
    :param rhino3dm.Mesh meshB: Second mesh for intersection.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: An array of intersection line segments, or null.
+   :return: An array of intersection line segments, or None if no intersections were found.
    :rtype: Line[]
-.. js:function:: RhinoCompute.Intersection.meshMesh(meshes, tolerance, mode, performPreprocessing, textLog, multiple=false)
-
-   Intersects two meshes. Overlaps and perforations are handled in the output list.
-
-   :param list[rhino3dm.Mesh] meshes: The mesh input list. It cannot be null.
-   :param float tolerance: A tolerance value. If negative, the positive value will be used. \
-      WARNING! Good tolerance values are in the magnitude of 10^-7, or RhinoMath.SqrtEpsilon*10.
-   :param bool performPreprocessing: Indicates if preprocessing should be executed.
-   :param SetsCombinations mode: The required working mode.
-   :param FileIO.TextLog textLog: A text log, or null.
-   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
-
-   :return: An array of both intersects, and overlaps.
-   :rtype: rhino3dm.Polyline[]
 .. js:function:: RhinoCompute.Intersection.meshMeshAccurate(meshA, meshB, tolerance, multiple=false)
 
-   Intersects two meshes. Overlaps and near misses are handled.
+   Intersects two meshes. Overlaps and near misses are handled. This is an old method kept for compatibility.
 
    :param rhino3dm.Mesh meshA: First mesh for intersection.
    :param rhino3dm.Mesh meshB: Second mesh for intersection.
@@ -212,7 +231,7 @@ RhinoCompute.Intersection
       WARNING! Good tolerance values are in the magnitude of 10^-7, or RhinoMath.SqrtEpsilon*10.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: An array of intersection polylines.
+   :return: An array of intersection and overlaps polylines.
    :rtype: rhino3dm.Polyline[]
 .. js:function:: RhinoCompute.Intersection.meshRay(mesh, ray, multiple=false)
 
@@ -258,15 +277,26 @@ RhinoCompute.Intersection
    :rtype: rhino3dm.Point3d[]
 .. js:function:: RhinoCompute.Intersection.rayShoot(ray, geometry, maxReflections, multiple=false)
 
-   Computes point intersections that occur when shooting a ray to a collection of surfaces.
+   Computes point intersections that occur when shooting a ray to a collection of surfaces and Breps.
 
    :param Ray3d ray: A ray used in intersection.
    :param list[rhino3dm.GeometryBase] geometry: Only Surface and Brep objects are currently supported. Trims are ignored on Breps.
    :param int maxReflections: The maximum number of reflections. This value should be any value between 1 and 1000, inclusive.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: An array of points: one for each face that was passed by the faceIds out reference.
+   :return: An array of points: one for each surface or Brep face that was hit, or an empty array on failure.
    :rtype: rhino3dm.Point3d[]
+.. js:function:: RhinoCompute.Intersection.rayShoot1(geometry, ray, maxReflections, multiple=false)
+
+   Computes point intersections that occur when shooting a ray to a collection of surfaces and Breps.
+
+   :param list[rhino3dm.GeometryBase] geometry: The collection of surfaces and Breps to intersect. Trims are ignored on Breps.
+   :param Ray3d ray: >A ray used in intersection.
+   :param int maxReflections: The maximum number of reflections. This value should be any value between 1 and 1000, inclusive.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of RayShootEvent structs if successful, or an empty array on failure.
+   :rtype: RayShootEvent[]
 .. js:function:: RhinoCompute.Intersection.projectPointsToMeshes(meshes, points, direction, tolerance, multiple=false)
 
    Projects points onto meshes.

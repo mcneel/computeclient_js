@@ -88,13 +88,13 @@ RhinoCompute.Surface
    :rtype: rhino3dm.Surface
 .. js:function:: RhinoCompute.Surface.createSoftEditSurface(surface, uv, delta, uLength, vLength, tolerance, fixEnds, multiple=false)
 
-   Creates a soft edited surface from an exising surface using a smooth field of influence.
+   Creates a soft edited surface from an existing surface using a smooth field of influence.
 
    :param rhino3dm.Surface surface: The surface to soft edit.
    :param rhino3dm.Point2d uv: A point in the parameter space to move from. This location on the surface is moved, \
       and the move is smoothly tapered off with increasing distance along the surface from \
       this parameter.
-   :param rhino3dm.Vector3d delta: The direction and magitude, or maximum distance, of the move.
+   :param rhino3dm.Vector3d delta: The direction and magnitude, or maximum distance, of the move.
    :param float uLength: The distance along the surface's u-direction from the editing point over which the \
       strength of the editing falls off smoothly.
    :param float vLength: The distance along the surface's v-direction from the editing point over which the \
@@ -155,8 +155,8 @@ RhinoCompute.Surface
    :param float uMinvMax: Offset distance at Domain(0).Min, Domain(1).Max.
    :param float uMaxvMin: Offset distance at Domain(0).Max, Domain(1).Min.
    :param float uMaxvMax: Offset distance at Domain(0).Max, Domain(1).Max.
-   :param list[rhino3dm.Point2d] interiorParameters: An array of interior uv parameters to offset from.
-   :param list[float] interiorDistances: >An array of offset distances at the interior uv parameters.
+   :param list[rhino3dm.Point2d] interiorParameters: An array of interior UV parameters to offset from.
+   :param list[float] interiorDistances: >An array of offset distances at the interior UV parameters.
    :param float tolerance: The offset tolerance.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -248,7 +248,7 @@ RhinoCompute.Surface
    :param float tolerance: Offset accuracy.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: The offsetted surface or None on failure.
+   :return: The offset surface or None on failure.
    :rtype: rhino3dm.Surface
 .. js:function:: RhinoCompute.Surface.fit(thisSurface, uDegree, vDegree, fitTolerance, multiple=false)
 
@@ -266,7 +266,7 @@ RhinoCompute.Surface
    Returns a curve that interpolates points on a surface. The interpolant lies on the surface.
 
    :param System.Collections.Generic.IEnumerable<Point2d> points: List of at least two UV parameter locations on the surface.
-   :param float tolerance: Tolerance used for the fit of the pushup curve. Generally, the resulting interpolating curve will be within tolerabce of the surface.
+   :param float tolerance: Tolerance used for the fit of the push-up curve. Generally, the resulting interpolating curve will be within tolerance of the surface.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A new NURBS curve if successful, or None on error.
@@ -276,10 +276,10 @@ RhinoCompute.Surface
    Returns a curve that interpolates points on a surface. The interpolant lies on the surface.
 
    :param System.Collections.Generic.IEnumerable<Point2d> points: List of at least two UV parameter locations on the surface.
-   :param float tolerance: Tolerance used for the fit of the pushup curve. Generally, the resulting interpolating curve will be within tolerabce of the surface.
+   :param float tolerance: Tolerance used for the fit of the push-up curve. Generally, the resulting interpolating curve will be within tolerance of the surface.
    :param bool closed: If false, the interpolating curve is not closed. If true, the interpolating curve is closed, and the last point and first point should generally not be equal.
    :param int closedSurfaceHandling: If 0, all points must be in the rectangular domain of the surface. If the surface is closed in some direction, \
-      then this routine will interpret each point and place it at an appropriate location in the the covering space. \
+      then this routine will interpret each point and place it at an appropriate location in the covering space. \
       This is the simplest option and should give good results. \
       If 1, then more options for more control of handling curves going across seams are available. \
       If the surface is closed in some direction, then the points are taken as points in the covering space. \
@@ -299,14 +299,14 @@ RhinoCompute.Surface
    :param float tolerance: A tolerance value.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: A new nurbs curve, or None on error.
+   :return: A new NURBS curve, or None on error.
    :rtype: rhino3dm.NurbsCurve
 .. js:function:: RhinoCompute.Surface.shortPath(thisSurface, start, end, tolerance, multiple=false)
 
    Constructs a geodesic between 2 points, used by ShortPath command in Rhino.
 
-   :param rhino3dm.Point2d start: start point of curve in parameter space. Points must be distinct in the domain of thie surface.
-   :param rhino3dm.Point2d end: end point of curve in parameter space. Points must be distinct in the domain of thie surface.
+   :param rhino3dm.Point2d start: start point of curve in parameter space. Points must be distinct in the domain of the surface.
+   :param rhino3dm.Point2d end: end point of curve in parameter space. Points must be distinct in the domain of the surface.
    :param float tolerance: tolerance used in fitting discrete solution.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -351,7 +351,7 @@ RhinoCompute.Surface
    :param rhino3dm.Curve curve3d: A curve.
    :param float tolerance: the maximum acceptable 3d distance between from surface(curve_2d(t)) \
       to the locus of points on the surface that are closest to curve_3d.
-   :param rhino3dm.Interval curve3dSubdomain: A subdomain of the curve to sample.
+   :param rhino3dm.Interval curve3dSubdomain: A sub-domain of the curve to sample.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: 2d curve.

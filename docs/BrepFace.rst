@@ -103,7 +103,7 @@ RhinoCompute.BrepFace
    Rebuild the edges used by a face so they lie on the surface.
 
    :param float tolerance: tolerance for fitting 3d edge curves.
-   :param bool rebuildSharedEdges: if False and and edge is used by this face and a neighbor, then the edge \
+   :param bool rebuildSharedEdges: if False and edge is used by this face and a neighbor, then the edge \
       will be skipped.
    :param bool rebuildVertices: if true, vertex locations are updated to lie on the surface.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed

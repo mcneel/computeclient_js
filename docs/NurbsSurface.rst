@@ -14,19 +14,19 @@ RhinoCompute.NurbsSurface
    :param list[rhino3dm.Point2d] fixedPoints: Surface points to interpolate given by parameters. These must be distinct.
    :param float tolerance: Relative tolerance used by the solver. When in doubt, use a tolerance of 0.0.
    :param bool periodic: When True constructs a smoothly closed curve.
-   :param int initCount: Maximum number of points to insert beteween fixed points on the first level.
+   :param int initCount: Maximum number of points to insert between fixed points on the first level.
    :param int levels: The number of levels (between 1 and 3) to be used in multi-level solver. Use 1 for single level solve.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A sequence of surface points, given by surface parameters, if successful. \
-      The number of output points is approximatelely: 2 ^ (level-1) * initCount * fixedPoints.Count.
+      The number of output points is approximately: 2 ^ (level-1) * initCount * fixedPoints.Count.
    :rtype: rhino3dm.Point2d[]
 .. js:function:: RhinoCompute.NurbsSurface.createCurveOnSurface(surface, points, tolerance, periodic, multiple=false)
 
    Fit a sequence of 2d points on a surface to make a curve on the surface.
 
    :param rhino3dm.Surface surface: Surface on which to construct curve.
-   :param list[rhino3dm.Point2d] points: Parameter space coodinates of the points to interpolate.
+   :param list[rhino3dm.Point2d] points: Parameter space coordinates of the points to interpolate.
    :param float tolerance: Curve should be within tolerance of surface and points.
    :param bool periodic: When True make a periodic curve.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
@@ -41,7 +41,7 @@ RhinoCompute.NurbsSurface
    :param rhino3dm.Surface surface1: The second surface.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: True if successsful, False on failure.
+   :return: True if successful, False on failure.
    :rtype: bool
 .. js:function:: RhinoCompute.NurbsSurface.createFromPoints(points, uCount, vCount, uDegree, vDegree, multiple=false)
 
@@ -125,11 +125,11 @@ RhinoCompute.NurbsSurface
    Builds a surface from an ordered network of curves/edges.
 
    :param list[rhino3dm.Curve] uCurves: An array, a list or any enumerable set of U curves.
-   :param int uContinuityStart: continuity at first U segment, 0 = loose, 1 = pos, 2 = tan, 3 = curvature.
-   :param int uContinuityEnd: continuity at last U segment, 0 = loose, 1 = pos, 2 = tan, 3 = curvature.
+   :param int uContinuityStart: continuity at first U segment, 0 = loose, 1 = position, 2 = tan, 3 = curvature.
+   :param int uContinuityEnd: continuity at last U segment, 0 = loose, 1 = position, 2 = tan, 3 = curvature.
    :param list[rhino3dm.Curve] vCurves: An array, a list or any enumerable set of V curves.
-   :param int vContinuityStart: continuity at first V segment, 0 = loose, 1 = pos, 2 = tan, 3 = curvature.
-   :param int vContinuityEnd: continuity at last V segment, 0 = loose, 1 = pos, 2 = tan, 3 = curvature.
+   :param int vContinuityStart: continuity at first V segment, 0 = loose, 1 = position, 2 = tan, 3 = curvature.
+   :param int vContinuityEnd: continuity at last V segment, 0 = loose, 1 = position, 2 = tan, 3 = curvature.
    :param float edgeTolerance: tolerance to use along network surface edge.
    :param float interiorTolerance: tolerance to use for the interior curves.
    :param float angleTolerance: angle tolerance to use.
@@ -139,10 +139,10 @@ RhinoCompute.NurbsSurface
    :rtype: NurbsSurface
 .. js:function:: RhinoCompute.NurbsSurface.createNetworkSurface1(curves, continuity, edgeTolerance, interiorTolerance, angleTolerance, multiple=false)
 
-   Builds a surface from an autosorted network of curves/edges.
+   Builds a surface from an auto-sorted network of curves/edges.
 
    :param list[rhino3dm.Curve] curves: An array, a list or any enumerable set of curves/edges, sorted automatically into U and V curves.
-   :param int continuity: continuity along edges, 0 = loose, 1 = pos, 2 = tan, 3 = curvature.
+   :param int continuity: continuity along edges, 0 = loose, 1 = position, 2 = tan, 3 = curvature.
    :param float edgeTolerance: tolerance to use along network surface edge.
    :param float interiorTolerance: tolerance to use for the interior curves.
    :param float angleTolerance: angle tolerance to use.

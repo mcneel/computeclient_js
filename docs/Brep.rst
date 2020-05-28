@@ -13,7 +13,7 @@ RhinoCompute.Brep
    :param float tolerance: Tolerance used to cut up surface.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: A new Brep that has the same geoemtry as the face with a relocated seam if successful, or None on failure.
+   :return: A new Brep that has the same geometry as the face with a relocated seam if successful, or None on failure.
    :rtype: rhino3dm.Brep
 .. js:function:: RhinoCompute.Brep.copyTrimCurves(trimSource, surfaceSource, tolerance, multiple=false)
 
@@ -291,7 +291,7 @@ RhinoCompute.Brep
       like a stiff material; higher, less like a stiff material.  That is, \
       each span is made to more closely match the spans adjacent to it if there \
       is no input geometry mapping to that area of the surface when the \
-      flexibility value is low.  The scale is logrithmic. Numbers around 0.001 \
+      flexibility value is low.  The scale is logarithmic. Numbers around 0.001 \
       or 0.1 make the patch pretty stiff and numbers around 10 or 100 make the \
       surface flexible.
    :param float surfacePull: Tends to keep the result surface where it was before the fit in areas where \
@@ -436,7 +436,7 @@ RhinoCompute.Brep
    :param float tolerance: Tolerance for fitting surface and rails.
    :param SweepRebuild rebuild: The rebuild style.
    :param int rebuildPointCount: If rebuild == SweepRebuild.Rebuild, the number of points. Otherwise specify 0.
-   :param float refitTolerance: If rebuild == SweepRebuild.Refit, the refit tolerenace. Otherwise, specify 0.0
+   :param float refitTolerance: If rebuild == SweepRebuild.Refit, the refit tolerance. Otherwise, specify 0.0
    :param bool preserveHeight: Removes the association between the height scaling from the width scaling
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -463,7 +463,7 @@ RhinoCompute.Brep
    :param rhino3dm.Curve curveToExtrude: the curve to extrude
    :param float distance: the distance to extrude
    :param rhino3dm.Vector3d direction: the direction of the extrusion
-   :param rhino3dm.Point3d basePoint: the basepoint of the extrusion
+   :param rhino3dm.Point3d basePoint: the base point of the extrusion
    :param float draftAngleRadians: angle of the extrusion
    :param float tolerance: tolerance to use for the extrusion
    :param float angleToleranceRadians: angle tolerance to use for the extrusion
@@ -478,7 +478,7 @@ RhinoCompute.Brep
    :param rhino3dm.Curve curveToExtrude: the curve to extrude
    :param float distance: the distance to extrude
    :param rhino3dm.Vector3d direction: the direction of the extrusion
-   :param rhino3dm.Point3d basePoint: the basepoint of the extrusion
+   :param rhino3dm.Point3d basePoint: the base point of the extrusion
    :param float draftAngleRadians: angle of the extrusion
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -547,7 +547,7 @@ RhinoCompute.Brep
    :param rhino3dm.Point2d uv1: A parameter face1 at the side you want to keep after filleting.
    :param float radius: The fillet radius.
    :param bool extend: If true, then when one input surface is longer than the other, the fillet surface is extended to the input surface edges.
-   :param float tolerance: The tolerance. In in doubt, the the document's model absolute tolerance.
+   :param float tolerance: The tolerance. When in doubt, use the document's model absolute tolerance.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Array of Breps if successful.
@@ -563,7 +563,7 @@ RhinoCompute.Brep
    :param float radius: The fillet radius.
    :param bool trim: If true, the input faces will be trimmed, if false, the input faces will be split.
    :param bool extend: If true, then when one input surface is longer than the other, the fillet surface is extended to the input surface edges.
-   :param float tolerance: The tolerance. In in doubt, the the document's model absolute tolerance.
+   :param float tolerance: The tolerance. When in doubt, use the document's model absolute tolerance.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Array of Breps if successful.
@@ -579,7 +579,7 @@ RhinoCompute.Brep
    :param rhino3dm.Point2d uv1: A parameter face1 at the side you want to keep after chamfering.
    :param float radius1: The distance from the intersection of face1 to the edge of the chamfer.
    :param bool extend: If true, then when one input surface is longer than the other, the chamfer surface is extended to the input surface edges.
-   :param float tolerance: The tolerance. In in doubt, the the document's model absolute tolerance.
+   :param float tolerance: The tolerance. When in doubt, use the document's model absolute tolerance.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Array of Breps if successful.
@@ -596,7 +596,7 @@ RhinoCompute.Brep
    :param float radius1: The distance from the intersection of face1 to the edge of the chamfer.
    :param bool trim: If true, the input faces will be trimmed, if false, the input faces will be split.
    :param bool extend: If true, then when one input surface is longer than the other, the chamfer surface is extended to the input surface edges.
-   :param float tolerance: The tolerance. In in doubt, the the document's model absolute tolerance.
+   :param float tolerance: The tolerance. When in doubt, use the document's model absolute tolerance.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Array of Breps if successful.
@@ -638,6 +638,14 @@ RhinoCompute.Brep
       surfaces that was supposed to join the offset to the original (if solid \
       is true).
    :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.removeFins(thisBrep, multiple=false)
+
+   Recursively removes any Brep face with a naked edge. This function is only useful for non-manifold Breps.
+
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if successful, False if everything is removed or if the result has any Brep edges with more than two Brep trims.
+   :rtype: bool
 .. js:function:: RhinoCompute.Brep.createFromJoinedEdges(brep0, edgeIndex0, brep1, edgeIndex1, joinTolerance, multiple=false)
 
    Joins two naked edges, or edges that are coincident or close together, from two Breps.
@@ -851,7 +859,7 @@ RhinoCompute.Brep
    :param rhino3dm.Brep brep: The solid Brep to shell.
    :param list[int] facesToRemove: The indices of the Brep faces to remove. These surfaces are removed and the remainder is offset inward, using the outer parts of the removed surfaces to join the inner and outer parts.
    :param float distance: The distance, or thickness, for the shell. This is a signed distance value with respect to face normals and flipped faces.
-   :param float tolerance: The offset tolerane. When in doubt, use the document's absolute tolerance.
+   :param float tolerance: The offset tolerance. When in doubt, use the document's absolute tolerance.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: An array of Brep results or None on failure.
@@ -939,8 +947,8 @@ RhinoCompute.Brep
    :rtype: rhino3dm.Point3d
 .. js:function:: RhinoCompute.Brep.isPointInside(thisBrep, point, tolerance, strictlyIn, multiple=false)
 
-   Determines if point is inside Brep.  This question only makes sense when
-   the brep is a closed manifold.  This function does not not check for
+   Determines if point is inside a Brep.  This question only makes sense when
+   the brep is a closed and manifold.  This function does not check for
    closed or manifold, so result is not valid in those cases.  Intersects
    a line through point with brep, finds the intersection point Q closest
    to point, and looks at face normal at Q.  If the point Q is on an edge
@@ -954,6 +962,17 @@ RhinoCompute.Brep
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: True if point is in, False if not.
+   :rtype: bool
+.. js:function:: RhinoCompute.Brep.getPointInside(thisBrep, tolerance, multiple=false)
+
+   Finds a point inside of a solid Brep.
+
+   :param float tolerance: Used for intersecting rays and is not necessarily related to the distance from the brep to the found point. \
+      When in doubt, use the document's model absolute tolerance.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: Returns False if the input is not solid and manifold, if the Brep's bounding box is less than 2.0 * tolerance wide, \
+      or if no point could be found due to ray shooting or other errors. Otherwise, True is returned.
    :rtype: bool
 .. js:function:: RhinoCompute.Brep.capPlanarHoles(thisBrep, tolerance, multiple=false)
 
@@ -1083,7 +1102,7 @@ RhinoCompute.Brep
    component of Brep that does not intersect the cutter is kept if and only
    if it is contained in the inside of Cutter.  That is the region bounded by
    cutter opposite from the normal of cutter, or in the case of a Plane cutter
-   the halfspace opposite from the plane normal.
+   the half space opposite from the plane normal.
 
    :param rhino3dm.Plane cutter: A cutting plane.
    :param float intersectionTolerance: A tolerance value with which to compute intersections.
@@ -1093,9 +1112,9 @@ RhinoCompute.Brep
    :rtype: rhino3dm.Brep[]
 .. js:function:: RhinoCompute.Brep.unjoinEdges(thisBrep, edgesToUnjoin, multiple=false)
 
-   Unjoins, or separates, edges within the Brep. Note, seams in closed surfaces will not separate.
+   Un-joins, or separates, edges within the Brep. Note, seams in closed surfaces will not separate.
 
-   :param list[int] edgesToUnjoin: The indices of the Brep edges to unjoin.
+   :param list[int] edgesToUnjoin: The indices of the Brep edges to un-join.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: This Brep is not modified, the trim results are returned in an array.
@@ -1183,7 +1202,7 @@ RhinoCompute.Brep
 .. js:function:: RhinoCompute.Brep.makeValidForV2(thisBrep, multiple=false)
 
    No support is available for this function.
-   Expert user function that converts all geometry in brep to nurbs form.
+   Expert user function that converts all geometry in Brep to NURB form.
 
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -1192,7 +1211,7 @@ RhinoCompute.Brep
 
    Fills in missing or fixes incorrect component information from a Brep.
    Useful when reading Brep information from other file formats that do not
-   provide as complete of a Brep definition as requried by Rhino.
+   provide as complete of a Brep definition as required by Rhino.
 
    :param float tolerance: The repair tolerance. When in doubt, use the document's model absolute tolerance.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed

@@ -51,12 +51,12 @@ RhinoCompute.Curve
    :rtype: rhino3dm.Curve
 .. js:function:: RhinoCompute.Curve.createSoftEditCurve(curve, t, delta, length, fixEnds, multiple=false)
 
-   Creates a soft edited curve from an exising curve using a smooth field of influence.
+   Creates a soft edited curve from an existing curve using a smooth field of influence.
 
    :param rhino3dm.Curve curve: The curve to soft edit.
    :param float t: A parameter on the curve to move from. This location on the curve is moved, and the move \
       is smoothly tapered off with increasing distance along the curve from this parameter.
-   :param rhino3dm.Vector3d delta: The direction and magitude, or maximum distance, of the move.
+   :param rhino3dm.Vector3d delta: The direction and magnitude, or maximum distance, of the move.
    :param float length: The distance along the curve from the editing point over which the strength \
       of the editing falls off smoothly.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
@@ -213,7 +213,7 @@ RhinoCompute.Curve
 .. js:function:: RhinoCompute.Curve.createTweenCurvesWithSampling(curve0, curve1, numCurves, numSamples, multiple=false)
 
    Creates curves between two open or closed input curves. Use sample points method to make curves compatible.
-   This is how the algorithm workd: Divides the two curves into an equal number of points, finds the midpoint between the
+   This is how the algorithm works: Divides the two curves into an equal number of points, finds the midpoint between the
    corresponding points on the curves and interpolates the tween curve through those points. There is no matching of curves
    direction. Caller must match input curves direction before calling the function.
 
@@ -228,7 +228,7 @@ RhinoCompute.Curve
 .. js:function:: RhinoCompute.Curve.createTweenCurvesWithSampling1(curve0, curve1, numCurves, numSamples, tolerance, multiple=false)
 
    Creates curves between two open or closed input curves. Use sample points method to make curves compatible.
-   This is how the algorithm workd: Divides the two curves into an equal number of points, finds the midpoint between the
+   This is how the algorithm works: Divides the two curves into an equal number of points, finds the midpoint between the
    corresponding points on the curves and interpolates the tween curve through those points. There is no matching of curves
    direction. Caller must match input curves direction before calling the function.
 
@@ -267,7 +267,7 @@ RhinoCompute.Curve
    :param list[rhino3dm.Curve] inputCurves: An array, a list or any enumerable set of curve segments to join.
    :param float joinTolerance: Joining tolerance, \
       i.e. the distance between segment end-points that is allowed.
-   :param bool preserveDirection: If true, curve endpoints will be compared to curve startpoints.If false, all start and endpoints will be compared and copies of input curves may be reversed in output.
+   :param bool preserveDirection: If true, curve endpoints will be compared to curve start points.If false, all start and endpoints will be compared and copies of input curves may be reversed in output.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: An array of joint curves. This array can be empty.
@@ -414,6 +414,31 @@ RhinoCompute.Curve
 
    :return: Result curves on success, empty array if no difference could be calculated.
    :rtype: rhino3dm.Curve[]
+.. js:function:: RhinoCompute.Curve.createBooleanRegions(curves, plane, points, combineRegions, tolerance, multiple=false)
+
+   Curve Boolean method, which trims and splits curves based on their overlapping regions.
+
+   :param list[rhino3dm.Curve] curves: The input curves.
+   :param rhino3dm.Plane plane: Regions will be found in the projection of the curves to this plane.
+   :param list[rhino3dm.Point3d] points: These points will be projected to plane. All regions that contain at least one of these points will be found.
+   :param bool combineRegions: If true, then adjacent regions will be combined.
+   :param float tolerance: Function tolerance. When in doubt, use the document's model absolute tolerance.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: The curve Boolean regions if successful, None of no successful.
+   :rtype: CurveBooleanRegions
+.. js:function:: RhinoCompute.Curve.createBooleanRegions1(curves, plane, combineRegions, tolerance, multiple=false)
+
+   Calculates curve Boolean regions, which trims and splits curves based on their overlapping regions.
+
+   :param list[rhino3dm.Curve] curves: The input curves.
+   :param rhino3dm.Plane plane: Regions will be found in the projection of the curves to this plane.
+   :param bool combineRegions: If true, then adjacent regions will be combined.
+   :param float tolerance: Function tolerance. When in doubt, use the document's model absolute tolerance.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: The curve Boolean regions if successful, None of no successful.
+   :rtype: CurveBooleanRegions
 .. js:function:: RhinoCompute.Curve.createTextOutlines(text, font, textHeight, textStyle, closeLoops, plane, smallCapsScale, tolerance, multiple=false)
 
    Creates outline curves created from a text string. The functionality is similar to what you find in Rhino's TextObject command or TextEntity.Explode() in RhinoCommon.
@@ -438,7 +463,7 @@ RhinoCompute.Curve
    :param rhino3dm.Curve curveA: The first curve.
    :param rhino3dm.Curve curveB: The second curve.
    :param rhino3dm.Vector3d vectorA: A vector defining the normal direction of the plane which the first curve is drawn upon.
-   :param rhino3dm.Vector3d vectorB: A vector defining the normal direction of the plane which the seconf curve is drawn upon.
+   :param rhino3dm.Vector3d vectorB: A vector defining the normal direction of the plane which the second curve is drawn upon.
    :param float tolerance: The tolerance for the operation.
    :param float angleTolerance: The angle tolerance for the operation.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
@@ -567,7 +592,7 @@ RhinoCompute.Curve
    Pull a curve to a BrepFace using closest point projection.
 
    :param rhino3dm.Curve curve: Curve to pull.
-   :param rhino3dm.BrepFace face: Brepface that pulls.
+   :param rhino3dm.BrepFace face: Brep face that pulls.
    :param float tolerance: Tolerance to use for pulling.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -701,7 +726,7 @@ RhinoCompute.Curve
 .. js:function:: RhinoCompute.Curve.makeClosed(thisCurve, tolerance, multiple=false)
 
    If IsClosed, just return true. Otherwise, decide if curve can be closed as
-   follows: Linear curves polylinear curves with 2 segments, Nurbs with 3 or less
+   follows: Linear curves polylinear curves with 2 segments, NURBS with 3 or less
    control points cannot be made closed. Also, if tolerance > 0 and the gap between
    start and end is larger than tolerance, curve cannot be made closed.
    Adjust the curve's endpoint to match its start point.
@@ -787,7 +812,7 @@ RhinoCompute.Curve
    This curve must be closed or the return value will be Unset.
 
    :param rhino3dm.Point3d testPoint: Point to test.
-   :param rhino3dm.Plane plane: Plane in in which to compare point and region.
+   :param rhino3dm.Plane plane: Plane in which to compare point and region.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Relationship between point and curve region.
@@ -798,7 +823,7 @@ RhinoCompute.Curve
    This curve must be closed or the return value will be Unset.
 
    :param rhino3dm.Point3d testPoint: Point to test.
-   :param rhino3dm.Plane plane: Plane in in which to compare point and region.
+   :param rhino3dm.Plane plane: Plane in which to compare point and region.
    :param float tolerance: Tolerance to use during comparison.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -931,7 +956,7 @@ RhinoCompute.Curve
    Used to quickly find short curves.
 
    :param float tolerance: Length threshold value for "shortness".
-   :param rhino3dm.Interval subdomain: The test is performed on the interval that is the intersection of subdomain with Domain()
+   :param rhino3dm.Interval subdomain: The test is performed on the interval that is the intersection of sub-domain with Domain()
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: True if the length of the curve is <= tolerance.
@@ -973,7 +998,7 @@ RhinoCompute.Curve
    Gets the parameter along the curve which coincides with a given length along the curve.
    A fractional tolerance of 1e-8 is used in this version of the function.
 
-   :param float segmentLength: Length of segment to measure. Must be less than or equal to the length of the subdomain.
+   :param float segmentLength: Length of segment to measure. Must be less than or equal to the length of the sub-domain.
    :param rhino3dm.Interval subdomain: The calculation is performed on the specified sub-domain of the curve rather than the whole curve.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -983,7 +1008,7 @@ RhinoCompute.Curve
 
    Gets the parameter along the curve which coincides with a given length along the curve.
 
-   :param float segmentLength: Length of segment to measure. Must be less than or equal to the length of the subdomain.
+   :param float segmentLength: Length of segment to measure. Must be less than or equal to the length of the sub-domain.
    :param float fractionalTolerance: Desired fractional precision. \
       fabs(("exact" length from start to t) - arc_length)/arc_length <= fractionalTolerance.
    :param rhino3dm.Interval subdomain: The calculation is performed on the specified sub-domain of the curve rather than the whole curve.
@@ -1078,7 +1103,7 @@ RhinoCompute.Curve
    :param float absoluteTolerance: If absoluteTolerance > 0, then the difference between (s[i+1]-s[i])*curve_length \
       and the length of the curve segment from t[i] to t[i+1] will be <= absoluteTolerance.
    :param rhino3dm.Interval subdomain: The calculation is performed on the specified sub-domain of the curve. \
-      A 0.0 s value corresponds to subdomain->Min() and a 1.0 s value corresponds to subdomain->Max().
+      A 0.0 s value corresponds to sub-domain->Min() and a 1.0 s value corresponds to sub-domain->Max().
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: If successful, array of curve parameters such that the length of the curve from its start to t[i] is s[i]*curve_length. \
@@ -1095,7 +1120,7 @@ RhinoCompute.Curve
    :param float fractionalTolerance: Desired fractional precision for each segment. \
       fabs("true" length - actual length)/(actual length) <= fractionalTolerance.
    :param rhino3dm.Interval subdomain: The calculation is performed on the specified sub-domain of the curve. \
-      A 0.0 s value corresponds to subdomain->Min() and a 1.0 s value corresponds to subdomain->Max().
+      A 0.0 s value corresponds to sub-domain->Min() and a 1.0 s value corresponds to sub-domain->Max().
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: If successful, array of curve parameters such that the length of the curve from its start to t[i] is s[i]*curve_length. \
@@ -1167,7 +1192,7 @@ RhinoCompute.Curve
 
    Calculates 3d points on a curve where the linear distance between the points is equal.
 
-   :param float distance: The distance betwen division points.
+   :param float distance: The distance between division points.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: An array of equidistant points, or None on error.
@@ -1334,11 +1359,11 @@ RhinoCompute.Curve
    Returns a geometrically equivalent PolyCurve.
    The PolyCurve has the following properties
    1. All the PolyCurve segments are LineCurve, PolylineCurve, ArcCurve, or NurbsCurve.
-   2. The Nurbs Curves segments do not have fully multiple interior knots.
-   3. Rational Nurbs curves do not have constant weights.
+   2. The NURBS Curves segments do not have fully multiple interior knots.
+   3. Rational NURBS curves do not have constant weights.
    4. Any segment for which IsLinear() or IsArc() is True is a Line,
    Polyline segment, or an Arc.
-   5. Adjacent Colinear or Cocircular segments are combined.
+   5. Adjacent co-linear or co-circular segments are combined.
    6. Segments that meet with G1-continuity have there ends tuned up so
    that they meet with G1-continuity to within machine precision.
 
@@ -1373,7 +1398,7 @@ RhinoCompute.Curve
    :param int clampStart: The number of (control vertices-1) to preserve at start. \
       0 = preserve start point1 = preserve start point and 1st derivative2 = preserve start point, 1st and 2nd derivative
    :param int clampEnd: Same as clampStart.
-   :param int iterations: The number of iteratoins to use in adjusting the curve.
+   :param int iterations: The number of iterations to use in adjusting the curve.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Returns new faired Curve on success, None on failure.
@@ -1400,7 +1425,7 @@ RhinoCompute.Curve
    :param bool preserveTangents: If true, the end tangents of the input curve will be preserved.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: A Nurbs curve on success or None on failure.
+   :return: A NURBS curve on success or None on failure.
    :rtype: rhino3dm.NurbsCurve
 .. js:function:: RhinoCompute.Curve.toPolyline(thisCurve, mainSegmentCount, subSegmentCount, maxAngleRadians, maxChordLengthRatio, maxAspectRatio, tolerance, minEdgeLength, maxEdgeLength, keepStartPoint, multiple=false)
 
@@ -1408,7 +1433,7 @@ RhinoCompute.Curve
 
    :param int mainSegmentCount: If mainSegmentCount <= 0, then both subSegmentCount and mainSegmentCount are ignored. \
       If mainSegmentCount > 0, then subSegmentCount must be >= 1. In this \
-      case the nurb will be broken into mainSegmentCount equally spaced \
+      case the NURBS will be broken into mainSegmentCount equally spaced \
       chords. If needed, each of these chords can be split into as many \
       subSegmentCount sub-parts if the subdivision is necessary for the \
       mesh to meet the other meshing constraints. In particular, if \
@@ -1442,7 +1467,7 @@ RhinoCompute.Curve
 
    :param int mainSegmentCount: If mainSegmentCount <= 0, then both subSegmentCount and mainSegmentCount are ignored. \
       If mainSegmentCount > 0, then subSegmentCount must be >= 1. In this \
-      case the nurb will be broken into mainSegmentCount equally spaced \
+      case the NURBS will be broken into mainSegmentCount equally spaced \
       chords. If needed, each of these chords can be split into as many \
       subSegmentCount sub-parts if the subdivision is necessary for the \
       mesh to meet the other meshing constraints. In particular, if \
@@ -1466,7 +1491,7 @@ RhinoCompute.Curve
    :param bool keepStartPoint: If True the starting point of the curve \
       is added to the polyline. If False the starting point of the curve is \
       not added to the polyline.
-   :param rhino3dm.Interval curveDomain: This subdomain of the NURBS curve is approximated.
+   :param rhino3dm.Interval curveDomain: This sub-domain of the NURBS curve is approximated.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: PolylineCurve on success, None on error.
@@ -1510,7 +1535,7 @@ RhinoCompute.Curve
 
    Offsets this curve. If you have a nice offset, then there will be one entry in
    the array. If the original curve had kinks or the offset curve had self
-   intersections, you will get multiple segments in the offset_curves[] array.
+   intersections, you will get multiple segments in the output array.
 
    :param rhino3dm.Plane plane: Offset solution plane.
    :param float distance: The positive or negative distance to offset.
@@ -1524,13 +1549,31 @@ RhinoCompute.Curve
 
    Offsets this curve. If you have a nice offset, then there will be one entry in
    the array. If the original curve had kinks or the offset curve had self
-   intersections, you will get multiple segments in the offset_curves[] array.
+   intersections, you will get multiple segments in the output array.
 
    :param rhino3dm.Point3d directionPoint: A point that indicates the direction of the offset.
    :param rhino3dm.Vector3d normal: The normal to the offset plane.
    :param float distance: The positive or negative distance to offset.
    :param float tolerance: The offset or fitting tolerance.
    :param CurveOffsetCornerStyle cornerStyle: Corner style for offset kinks.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: Offset curves on success, None on failure.
+   :rtype: rhino3dm.Curve[]
+.. js:function:: RhinoCompute.Curve.offset2(thisCurve, directionPoint, normal, distance, tolerance, angleTolerance, loose, cornerStyle, endStyle, multiple=false)
+
+   Offsets this curve. If you have a nice offset, then there will be one entry in
+   the array. If the original curve had kinks or the offset curve had self
+   intersections, you will get multiple segments in the output array.
+
+   :param rhino3dm.Point3d directionPoint: A point that indicates the direction of the offset.
+   :param rhino3dm.Vector3d normal: The normal to the offset plane.
+   :param float distance: The positive or negative distance to offset.
+   :param float tolerance: The offset or fitting tolerance.
+   :param float angleTolerance: The angle tolerance, in radians, used to decide whether to split at kinks.
+   :param bool loose: If false, offset within tolerance. If true, offset by moving edit points.
+   :param CurveOffsetCornerStyle cornerStyle: Corner style for offset kinks.
+   :param CurveOffsetEndStyle endStyle: End style for non-loose, non-closed curve offsets.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Offset curves on success, None on failure.

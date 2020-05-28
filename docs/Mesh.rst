@@ -15,6 +15,17 @@ RhinoCompute.Mesh
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :rtype: rhino3dm.Mesh
+.. js:function:: RhinoCompute.Mesh.createFromFilteredFaceList(original, inclusion, multiple=false)
+
+   Constructs a sub-mesh, that contains a filtered list of faces.
+
+   :param rhino3dm.Mesh original: The mesh to copy. This item can be null, and in this case an empty mesh is returned.
+   :param IEnumerable<bool> inclusion: A series of True and False values, that determine if each face is used in the new mesh. \
+      If the amount does not match the length of the face list, the pattern is repeated. If it exceeds the amount \
+      of faces in the mesh face list, the pattern is truncated. This items can be None or empty, and the mesh will simply be duplicated.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :rtype: rhino3dm.Mesh
 .. js:function:: RhinoCompute.Mesh.createFromBox(box, xCount, yCount, zCount, multiple=false)
 
    Constructs new mesh that matches a bounding box.
@@ -122,7 +133,7 @@ RhinoCompute.Mesh
    :param int around: Number of faces around the cylinder.
    :param bool capBottom: If True end at Cylinder.Height1 should be capped.
    :param bool capTop: If True end at Cylinder.Height2 should be capped.
-   :param bool quadCaps: If True and it's possible to make quad caps, ie. around is even, then caps will have quad faces.
+   :param bool quadCaps: If True and it's possible to make quad caps, i.e.. around is even, then caps will have quad faces.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Returns a mesh cylinder if successful, None otherwise.
@@ -155,7 +166,7 @@ RhinoCompute.Mesh
    :param int vertical: Number of faces in the top-to-bottom direction.
    :param int around: Number of faces around the cone.
    :param bool solid: If False the mesh will be open with no faces on the circular planar portion.
-   :param bool quadCaps: If True and it's possible to make quad caps, ie. around is even, then caps will have quad faces.
+   :param bool quadCaps: If True and it's possible to make quad caps, i.e.. around is even, then caps will have quad faces.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A valid mesh if successful.
@@ -194,7 +205,7 @@ RhinoCompute.Mesh
    :rtype: rhino3dm.Mesh
 .. js:function:: RhinoCompute.Mesh.createFromClosedPolyline(polyline, multiple=false)
 
-   Attempts to create a Mesh that is a triangulation of a closed polyline.
+   Attempts to create a Mesh that is a triangulation of a simple closed polyline that projects onto a plane.
 
    :param rhino3dm.Polyline polyline: must be closed
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
@@ -278,7 +289,7 @@ RhinoCompute.Mesh
       boundary will be ignored and have no impact on the result. If any of \
       the input intersects the outer boundary the result will be \
       unpredictable and is likely to not include the entire outer boundary.
-   :param float angleToleranceRadians: Maximum angle between unit tangents and adjacent verticies. Used to \
+   :param float angleToleranceRadians: Maximum angle between unit tangents and adjacent vertices. Used to \
       divide curve inputs that cannot otherwise be represented as a polyline.
    :param list[rhino3dm.Curve] innerBoundaryCurves: (optional: can be null) Polylines to create holes in the output mesh. \
       If innerBoundaryCurves are the only input then the result may be null \
@@ -365,6 +376,39 @@ RhinoCompute.Mesh
 
    :return: A new mesh, or None on failure.
    :rtype: rhino3dm.Mesh
+.. js:function:: RhinoCompute.Mesh.createFromCurveExtrusion(curve, direction, parameters, boundingBox, multiple=false)
+
+   Constructs a new extrusion from a curve.
+
+   :param rhino3dm.Curve curve: A curve to extrude.
+   :param rhino3dm.Vector3d direction: The direction of extrusion.
+   :param rhino3dm.MeshingParameters parameters: The parameters of meshing.
+   :param rhino3dm.BoundingBox boundingBox: The bounding box controls the length of the extrusion.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A new mesh, or None on failure.
+   :rtype: rhino3dm.Mesh
+.. js:function:: RhinoCompute.Mesh.createFromIterativeCleanup(meshes, tolerance, multiple=false)
+
+   Repairs meshes with vertices that are too near, using a tolerance value.
+
+   :param list[rhino3dm.Mesh] meshes: The meshes to be repaired.
+   :param float tolerance: A minimum distance for clean vertices.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A valid meshes array if successful. If no change was required, some meshes can be null. Otherwise, null, when no changes were done.
+   :rtype: rhino3dm.Mesh[]
+.. js:function:: RhinoCompute.Mesh.requireIterativeCleanup(meshes, tolerance, multiple=false)
+
+   Analyzes some meshes, and determines if a pass of CreateFromIterativeCleanup would change the array.
+   All available cleanup steps are used. Currently available cleanup steps are:- mending of single precision coincidence even though double precision vertices differ.- union of nearly identical vertices, irrespectively of their origin.- removal of t-joints along edges.
+
+   :param list[rhino3dm.Mesh] meshes: A list, and array or any enumerable of meshes.
+   :param float tolerance: A 3d distance. This is usually a value of about 10e-7 magnitude.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if meshes would be changed, otherwise false.
+   :rtype: bool
 .. js:function:: RhinoCompute.Mesh.volume(thisMesh, multiple=false)
 
    Compute volume of the mesh.
@@ -426,7 +470,7 @@ RhinoCompute.Mesh
 
    :param float angleToleranceRadians: Angle at which to make unique vertices.
    :param bool modifyNormals: Determines whether new vertex normals will have the same vertex normal as the original (false) \
-      or vertex normals made from the corrsponding face normals (true)
+      or vertex normals made from the corresponding face normals (true)
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :rtype: void
@@ -553,11 +597,27 @@ RhinoCompute.Mesh
 .. js:function:: RhinoCompute.Mesh.split2(thisMesh, meshes, multiple=false)
 
    Split a mesh with a collection of meshes.
+   Does not split at coplanar intersections.
 
    :param list[rhino3dm.Mesh] meshes: Meshes to split with.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: An array of mesh segments representing the split result.
+   :rtype: rhino3dm.Mesh[]
+.. js:function:: RhinoCompute.Mesh.split3(thisMesh, meshes, tolerance, splitAtCoplanar, textLog, cancel, progress, multiple=false)
+
+   Split a mesh with a collection of meshes.
+
+   :param list[rhino3dm.Mesh] meshes: Meshes to split with.
+   :param float tolerance: A value for intersection tolerance. \
+      WARNING! Correct values are typically in the (10e-8 - 10e-4) range.An option is to use the document tolerance diminished by a few orders or magnitude.
+   :param bool splitAtCoplanar: If false, coplanar areas will not be separated.
+   :param TextLog textLog: A text log to write onto.
+   :param CancellationToken cancel: A cancellation token.
+   :param IProgress<double> progress: A progress reporter item. This can be null.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of mesh parts representing the split result, or null: when no mesh intersected, or if a cancel stopped the computation.
    :rtype: rhino3dm.Mesh[]
 .. js:function:: RhinoCompute.Mesh.getOutlines(thisMesh, plane, multiple=false)
 
@@ -599,20 +659,20 @@ RhinoCompute.Mesh
    :rtype: rhino3dm.Polyline[]
 .. js:function:: RhinoCompute.Mesh.explodeAtUnweldedEdges(thisMesh, multiple=false)
 
-   Explode the mesh into submeshes where a submesh is a collection of faces that are contained
+   Explode the mesh into sub-meshes where a sub-mesh is a collection of faces that are contained
    within a closed loop of "unwelded" edges. Unwelded edges are edges where the faces that share
    the edge have unique mesh vertexes (not mesh topology vertexes) at both ends of the edge.
 
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: Array of submeshes on success; None on error. If the count in the returned array is 1, then \
-      nothing happened and the ouput is essentially a copy of the input.
+   :return: Array of sub-meshes on success; None on error. If the count in the returned array is 1, then \
+      nothing happened and the output is essentially a copy of the input.
    :rtype: rhino3dm.Mesh[]
 .. js:function:: RhinoCompute.Mesh.closestPoint(thisMesh, testPoint, multiple=false)
 
    Gets the point on the mesh that is closest to a given test point.
 
-   :param rhino3dm.Point3d testPoint: Point to seach for.
+   :param rhino3dm.Point3d testPoint: Point to search for.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: The point on the mesh closest to testPoint, or Point3d.Unset on failure.
@@ -637,7 +697,7 @@ RhinoCompute.Mesh
 
    Gets the point on the mesh that is closest to a given test point.
 
-   :param rhino3dm.Point3d testPoint: Point to seach for.
+   :param rhino3dm.Point3d testPoint: Point to search for.
    :param float maximumDistance: Optional upper bound on the distance from test point to the mesh. \
       If you are only interested in finding a point Q on the mesh when \
       testPoint.DistanceTo(Q) < maximumDistance, \
@@ -652,7 +712,7 @@ RhinoCompute.Mesh
 
    Gets the point on the mesh that is closest to a given test point.
 
-   :param rhino3dm.Point3d testPoint: Point to seach for.
+   :param rhino3dm.Point3d testPoint: Point to search for.
    :param float maximumDistance: Optional upper bound on the distance from test point to the mesh. \
       If you are only interested in finding a point Q on the mesh when \
       testPoint.DistanceTo(Q) < maximumDistance, \
@@ -667,7 +727,7 @@ RhinoCompute.Mesh
 
    Evaluate a mesh at a set of barycentric coordinates.
 
-   :param MeshPoint meshPoint: MeshPoint instance contiaining a valid Face Index and Barycentric coordinates.
+   :param MeshPoint meshPoint: MeshPoint instance containing a valid Face Index and Barycentric coordinates.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A Point on the mesh or Point3d.Unset if the faceIndex is not valid or if the barycentric coordinates could not be evaluated.
@@ -690,7 +750,7 @@ RhinoCompute.Mesh
 
    Evaluate a mesh normal at a set of barycentric coordinates.
 
-   :param MeshPoint meshPoint: MeshPoint instance contiaining a valid Face Index and Barycentric coordinates.
+   :param MeshPoint meshPoint: MeshPoint instance containing a valid Face Index and Barycentric coordinates.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A Normal vector to the mesh or Vector3d.Unset if the faceIndex is not valid or if the barycentric coordinates could not be evaluated.
@@ -713,7 +773,7 @@ RhinoCompute.Mesh
 
    Evaluate a mesh color at a set of barycentric coordinates.
 
-   :param MeshPoint meshPoint: MeshPoint instance contiaining a valid Face Index and Barycentric coordinates.
+   :param MeshPoint meshPoint: MeshPoint instance containing a valid Face Index and Barycentric coordinates.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: The interpolated vertex color on the mesh or Color.Transparent if the faceIndex is not valid, \
@@ -743,6 +803,42 @@ RhinoCompute.Mesh
 
    :return: An array of points. This can be empty.
    :rtype: rhino3dm.Point3d[]
+.. js:function:: RhinoCompute.Mesh.pullCurve(thisMesh, curve, tolerance, multiple=false)
+
+   Gets a polyline approximation of the input curve and then moves its control points to the closest point on the mesh.
+   Then it "connects the points" over edges so that a polyline on the mesh is formed.
+
+   :param rhino3dm.Curve curve: A curve to pull.
+   :param float tolerance: A tolerance value.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A polyline curve, or None if none could be constructed.
+   :rtype: PolylineCurve
+.. js:function:: RhinoCompute.Mesh.splitWithProjectedPolylines(thisMesh, curves, tolerance, multiple=false)
+
+   Splits a mesh by adding edges in correspondence with input polylines, and divides the mesh at partitioned areas.
+   Polyline segments that are measured not to be on the mesh will be ignored.
+
+   :param IEnumerable<PolylineCurve> curves: An array, a list or any enumerable of polyline curves.
+   :param float tolerance: A tolerance value.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of meshes, or None if no change would happen.
+   :rtype: rhino3dm.Mesh[]
+.. js:function:: RhinoCompute.Mesh.splitWithProjectedPolylines1(thisMesh, curves, tolerance, textLog, cancel, progress, multiple=false)
+
+   Splits a mesh by adding edges in correspondence with input polylines, and divides the mesh at partitioned areas.
+   Polyline segments that are measured not to be on the mesh will be ignored.
+
+   :param IEnumerable<PolylineCurve> curves: An array, a list or any enumerable of polyline curves.
+   :param float tolerance: A tolerance value.
+   :param TextLog textLog: A text log, or null.
+   :param CancellationToken cancel: A cancellation token to stop the computation at a given point.
+   :param IProgress<double> progress: A progress reporter to inform the user about progress. The reported value is indicative.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of meshes, or None if no change would happen.
+   :rtype: rhino3dm.Mesh[]
 .. js:function:: RhinoCompute.Mesh.offset(thisMesh, distance, multiple=false)
 
    Makes a new mesh with vertices offset a distance in the opposite direction of the existing vertex normals.
@@ -898,7 +994,7 @@ RhinoCompute.Mesh
    :rtype: rhino3dm.Mesh
 .. js:function:: RhinoCompute.Mesh.quadRemeshBrepAsync(brep, parameters, progress, cancelToken, multiple=false)
 
-   Quad remesh this brep async
+   Quad remesh this Brep asynchronously.
 
    :param rhino3dm.Brep brep: Set Brep Face Mode by setting QuadRemeshParameters.PreserveMeshArrayEdgesMode
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
@@ -906,7 +1002,7 @@ RhinoCompute.Mesh
    :rtype: Task<Mesh>
 .. js:function:: RhinoCompute.Mesh.quadRemeshBrepAsync1(brep, parameters, guideCurves, progress, cancelToken, multiple=false)
 
-   Quad remesh this brep async
+   Quad remesh this Brep asynchronously.
 
    :param rhino3dm.Brep brep: Set Brep Face Mode by setting QuadRemeshParameters.PreserveMeshArrayEdgesMode
    :param list[rhino3dm.Curve] guideCurves: A curve array used to influence mesh face layout \
@@ -917,14 +1013,14 @@ RhinoCompute.Mesh
    :rtype: Task<Mesh>
 .. js:function:: RhinoCompute.Mesh.quadRemesh(thisMesh, parameters, multiple=false)
 
-   Quad remesh this mesh
+   Quad remesh this mesh.
 
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :rtype: rhino3dm.Mesh
 .. js:function:: RhinoCompute.Mesh.quadRemesh1(thisMesh, parameters, guideCurves, multiple=false)
 
-   Quad remesh this mesh
+   Quad remesh this mesh.
 
    :param list[rhino3dm.Curve] guideCurves: A curve array used to influence mesh face layout \
       The curves should touch the input mesh \
@@ -934,14 +1030,14 @@ RhinoCompute.Mesh
    :rtype: rhino3dm.Mesh
 .. js:function:: RhinoCompute.Mesh.quadRemeshAsync(thisMesh, parameters, progress, cancelToken, multiple=false)
 
-   Quad remesh this mesh async
+   Quad remesh this mesh asynchronously.
 
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :rtype: Task<Mesh>
 .. js:function:: RhinoCompute.Mesh.quadRemeshAsync1(thisMesh, parameters, guideCurves, progress, cancelToken, multiple=false)
 
-   Quad remesh this mesh async
+   Quad remesh this mesh asynchronously.
 
    :param list[rhino3dm.Curve] guideCurves: A curve array used to influence mesh face layout \
       The curves should touch the input mesh \
@@ -951,7 +1047,7 @@ RhinoCompute.Mesh
    :rtype: Task<Mesh>
 .. js:function:: RhinoCompute.Mesh.quadRemeshAsync2(thisMesh, faceBlocks, parameters, guideCurves, progress, cancelToken, multiple=false)
 
-   Quad remesh this mesh async
+   Quad remesh this mesh asynchronously.
 
    :param list[rhino3dm.Curve] guideCurves: A curve array used to influence mesh face layout \
       The curves should touch the input mesh \

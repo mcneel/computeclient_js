@@ -20,7 +20,7 @@ RhinoCompute.NurbsCurve
    :rtype: rhino3dm.NurbsCurve[]
 .. js:function:: RhinoCompute.NurbsCurve.createParabolaFromVertex(vertex, startPoint, endPoint, multiple=false)
 
-   Createsa a parabola from vertex and end points.
+   Creates a parabola from vertex and end points.
 
    :param rhino3dm.Point3d vertex: The vertex point.
    :param rhino3dm.Point3d startPoint: The start point.
@@ -42,10 +42,10 @@ RhinoCompute.NurbsCurve
    :rtype: rhino3dm.NurbsCurve
 .. js:function:: RhinoCompute.NurbsCurve.createFromArc(arc, degree, cvCount, multiple=false)
 
-   Create a uniform non-ratonal cubic NURBS approximation of an arc.
+   Create a uniform non-rational cubic NURBS approximation of an arc.
 
    :param int degree: >=1
-   :param int cvCount: cv count >=5
+   :param int cvCount: CV count >=5
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: NURBS curve approximation of an arc on success
@@ -69,22 +69,41 @@ RhinoCompute.NurbsCurve
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :rtype: rhino3dm.NurbsCurve
+.. js:function:: RhinoCompute.NurbsCurve.createPlanarRailFrames(thisNurbsCurve, parameters, normal, multiple=false)
+
+   Computes planar rail sweep frames at specified parameters.
+
+   :param list[float] parameters: A collection of curve parameters.
+   :param rhino3dm.Vector3d normal: Unit normal to the plane.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of planes if successful, or an empty array on failure.
+   :rtype: rhino3dm.Plane[]
+.. js:function:: RhinoCompute.NurbsCurve.createRailFrames(thisNurbsCurve, parameters, multiple=false)
+
+   Computes relatively parallel rail sweep frames at specified parameters.
+
+   :param list[float] parameters: A collection of curve parameters.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of planes if successful, or an empty array on failure.
+   :rtype: rhino3dm.Plane[]
 .. js:function:: RhinoCompute.NurbsCurve.createFromCircle(circle, degree, cvCount, multiple=false)
 
-   Create a uniform non-ratonal cubic NURBS approximation of a circle.
+   Create a uniform non-rational cubic NURBS approximation of a circle.
 
    :param int degree: >=1
-   :param int cvCount: cv count >=5
+   :param int cvCount: CV count >=5
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: NURBS curve approximation of a circle on success
    :rtype: rhino3dm.NurbsCurve
 .. js:function:: RhinoCompute.NurbsCurve.setEndCondition(thisNurbsCurve, bSetEnd, continuity, point, tangent, multiple=false)
 
-   Set end condition of a nurbs curve to point, tangent and curvature.
+   Set end condition of a NURBS curve to point, tangent and curvature.
 
    :param bool bSetEnd: true: set end of curve, false: set start of curve
-   :param NurbsCurveEndConditionType continuity: Position: set strart or end point, Tangency: set point and tangent, Curvature: set point, tangent and curvature
+   :param NurbsCurveEndConditionType continuity: Position: set start or end point, Tangency: set point and tangent, Curvature: set point, tangent and curvature
    :param rhino3dm.Point3d point: point to set
    :param rhino3dm.Vector3d tangent: tangent to set
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
@@ -93,10 +112,10 @@ RhinoCompute.NurbsCurve
    :rtype: bool
 .. js:function:: RhinoCompute.NurbsCurve.setEndCondition1(thisNurbsCurve, bSetEnd, continuity, point, tangent, curvature, multiple=false)
 
-   Set end condition of a nurbs curve to point, tangent and curvature.
+   Set end condition of a NURBS curve to point, tangent and curvature.
 
    :param bool bSetEnd: true: set end of curve, false: set start of curve
-   :param NurbsCurveEndConditionType continuity: Position: set strart or end point, Tangency: set point and tangent, Curvature: set point, tangent and curvature
+   :param NurbsCurveEndConditionType continuity: Position: set start or end point, Tangency: set point and tangent, Curvature: set point, tangent and curvature
    :param rhino3dm.Point3d point: point to set
    :param rhino3dm.Vector3d tangent: tangent to set
    :param rhino3dm.Vector3d curvature: curvature to set
@@ -108,7 +127,7 @@ RhinoCompute.NurbsCurve
 
    Gets Greville points for this curve.
 
-   :param bool all: If true, then all Greville points are returnd. If false, only edit points are returned.
+   :param bool all: If true, then all Greville points are returns. If false, only edit points are returned.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A list of points if successful, None otherwise.
@@ -131,12 +150,12 @@ RhinoCompute.NurbsCurve
 
    :param rhino3dm.Point3d axisStart: Helix's axis starting point or center of spiral.
    :param rhino3dm.Vector3d axisDir: Helix's axis vector or normal to spiral's plane.
-   :param rhino3dm.Point3d radiusPoint: Point used only to get a vector that is perpedicular to the axis. In \
+   :param rhino3dm.Point3d radiusPoint: Point used only to get a vector that is perpendicular to the axis. In \
       particular, this vector must not be (anti)parallel to the axis vector.
    :param float pitch: The pitch, where a spiral has a pitch = 0, and pitch > 0 is the distance \
       between the helix's "threads".
    :param float turnCount: The number of turns in spiral or helix. Positive \
-      values produce counter-clockwise orientation, negitive values produce \
+      values produce counter-clockwise orientation, negative values produce \
       clockwise orientation. Note, for a helix, turnCount * pitch = length of \
       the helix's axis.
    :param float radius0: The starting radius.
@@ -152,19 +171,19 @@ RhinoCompute.NurbsCurve
    :param rhino3dm.Curve railCurve: The rail curve.
    :param float t0: Starting portion of rail curve's domain to sweep along.
    :param float t1: Ending portion of rail curve's domain to sweep along.
-   :param rhino3dm.Point3d radiusPoint: Point used only to get a vector that is perpedicular to the axis. In \
+   :param rhino3dm.Point3d radiusPoint: Point used only to get a vector that is perpendicular to the axis. In \
       particular, this vector must not be (anti)parallel to the axis vector.
    :param float pitch: The pitch. Positive values produce counter-clockwise orientation, \
       negative values produce clockwise orientation.
    :param float turnCount: The turn count. If != 0, then the resulting helix will have this many \
       turns. If = 0, then pitch must be != 0 and the approximate distance \
       between turns will be set to pitch. Positive values produce counter-clockwise \
-      orientation, negitive values produce clockwise orientation.
-   :param float radius0: The starting radius. At least one radii must benonzero. Negative values \
+      orientation, negative values produce clockwise orientation.
+   :param float radius0: The starting radius. At least one radii must be nonzero. Negative values \
       are allowed.
-   :param float radius1: The ending radius. At least ont radii must be nonzero. Negative values \
+   :param float radius1: The ending radius. At least one radii must be nonzero. Negative values \
       are allowed.
-   :param int pointsPerTurn: Number of points to intepolate per turn. Must be greater than 4. \
+   :param int pointsPerTurn: Number of points to interpolate per turn. Must be greater than 4. \
       When in doubt, use 12.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 

@@ -587,7 +587,7 @@ RhinoCompute.Mesh
    :rtype: rhino3dm.Mesh[]
 .. js:function:: RhinoCompute.Mesh.split1(thisMesh, mesh, multiple=false)
 
-   Split a mesh with another mesh.
+   Split a mesh with another mesh. Suggestion: upgrade to overload with tolerance.
 
    :param rhino3dm.Mesh mesh: Mesh to split with.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
@@ -596,7 +596,7 @@ RhinoCompute.Mesh
    :rtype: rhino3dm.Mesh[]
 .. js:function:: RhinoCompute.Mesh.split2(thisMesh, meshes, multiple=false)
 
-   Split a mesh with a collection of meshes.
+   Split a mesh with a collection of meshes. Suggestion: upgrade to overload with tolerance.
    Does not split at coplanar intersections.
 
    :param list[rhino3dm.Mesh] meshes: Meshes to split with.
@@ -619,6 +619,21 @@ RhinoCompute.Mesh
 
    :return: An array of mesh parts representing the split result, or null: when no mesh intersected, or if a cancel stopped the computation.
    :rtype: rhino3dm.Mesh[]
+.. js:function:: RhinoCompute.Mesh.knife(thisMesh, meshes, tolerance, splitAtCoplanar, textLog, cancel, progress, multiple=false)
+
+   Creates edges along a collection of meshes, and return a copy if something happened. Knife does not split meshes into parts.
+
+   :param list[rhino3dm.Mesh] meshes: Meshes to split with.
+   :param float tolerance: A value for intersection tolerance. \
+      WARNING! Correct values are typically in the (10e-8 - 10e-4) range.An option is to use the document tolerance diminished by a few orders or magnitude.
+   :param bool splitAtCoplanar: If false, coplanar areas will not be separated.
+   :param TextLog textLog: A text log to write onto.
+   :param CancellationToken cancel: A cancellation token.
+   :param IProgress<double> progress: A progress reporter item. This can be null.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of mesh parts representing the split result, or null: when no mesh intersected, or if a cancel stopped the computation.
+   :rtype: rhino3dm.Mesh
 .. js:function:: RhinoCompute.Mesh.getOutlines(thisMesh, plane, multiple=false)
 
    Constructs the outlines of a mesh projected against a plane.

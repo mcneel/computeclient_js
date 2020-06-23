@@ -306,39 +306,83 @@ RhinoCompute.Brep
    :rtype: rhino3dm.Brep
 .. js:function:: RhinoCompute.Brep.createPipe(rail, radius, localBlending, cap, fitRail, absoluteTolerance, angleToleranceRadians, multiple=false)
 
-   Creates a single walled pipe
+   Creates a single walled pipe.
 
-   :param rhino3dm.Curve rail: the path curve for the pipe
-   :param float radius: radius of the pipe
-   :param bool localBlending: If True, Local (pipe radius stays constant at the ends and changes more rapidly in the middle) is applied. \
-      If False, Global (radius is linearly blended from one end to the other, creating pipes that taper from one radius to the other) is applied
-   :param PipeCapMode cap: end cap mode
+   :param rhino3dm.Curve rail: The rail, or path, curve.
+   :param float radius: The radius of the pipe.
+   :param bool localBlending: The shape blending. \
+      If True, Local (pipe radius stays constant at the ends and changes more rapidly in the middle) is applied. \
+      If False, Global (radius is linearly blended from one end to the other, creating pipes that taper from one radius to the other) is applied.
+   :param PipeCapMode cap: The end cap mode.
    :param bool fitRail: If the curve is a polycurve of lines and arcs, the curve is fit and a single surface is created; \
-      otherwise the result is a polysurface with joined surfaces created from the polycurve segments.
-   :param float absoluteTolerance: The sweeping and fitting tolerance. If you are unsure what to use, then use the document's absolute tolerance
-   :param float angleToleranceRadians: The angle tolerance. If you are unsure what to use, then either use the document's angle tolerance in radians
+      otherwise the result is a Brep with joined surfaces created from the polycurve segments.
+   :param float absoluteTolerance: The sweeping and fitting tolerance. When in doubt, use the document's absolute tolerance.
+   :param float angleToleranceRadians: The angle tolerance. When in doubt, use the document's angle tolerance in radians.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: Array of created pipes on success
+   :return: Array of Breps success.
    :rtype: rhino3dm.Brep[]
 .. js:function:: RhinoCompute.Brep.createPipe1(rail, railRadiiParameters, radii, localBlending, cap, fitRail, absoluteTolerance, angleToleranceRadians, multiple=false)
 
-   Creates a single walled pipe
+   Creates a single walled pipe.
 
-   :param rhino3dm.Curve rail: the path curve for the pipe
-   :param list[float] railRadiiParameters: one or more normalized curve parameters where changes in radius occur. \
-      Important: curve parameters must be normalized - ranging between 0.0 and 1.0.
-   :param list[float] radii: An array of radii - one at each normalized curve parameter in railRadiiParameters.
-   :param bool localBlending: If True, Local (pipe radius stays constant at the ends and changes more rapidly in the middle) is applied. \
-      If False, Global (radius is linearly blended from one end to the other, creating pipes that taper from one radius to the other) is applied
-   :param PipeCapMode cap: end cap mode
+   :param rhino3dm.Curve rail: The rail, or path, curve.
+   :param list[float] railRadiiParameters: One or more normalized curve parameters where changes in radius occur. \
+      Important: curve parameters must be normalized - ranging between 0.0 and 1.0. \
+      Use Interval.NormalizedParameterAt to calculate these.
+   :param list[float] radii: One or more radii - one at each normalized curve parameter in railRadiiParameters.
+   :param bool localBlending: The shape blending. \
+      If True, Local (pipe radius stays constant at the ends and changes more rapidly in the middle) is applied. \
+      If False, Global (radius is linearly blended from one end to the other, creating pipes that taper from one radius to the other) is applied.
+   :param PipeCapMode cap: The end cap mode.
    :param bool fitRail: If the curve is a polycurve of lines and arcs, the curve is fit and a single surface is created; \
-      otherwise the result is a polysurface with joined surfaces created from the polycurve segments.
-   :param float absoluteTolerance: The sweeping and fitting tolerance. If you are unsure what to use, then use the document's absolute tolerance
-   :param float angleToleranceRadians: The angle tolerance. If you are unsure what to use, then either use the document's angle tolerance in radians
+      otherwise the result is a Brep with joined surfaces created from the polycurve segments.
+   :param float absoluteTolerance: The sweeping and fitting tolerance. When in doubt, use the document's absolute tolerance.
+   :param float angleToleranceRadians: The angle tolerance. When in doubt, use the document's angle tolerance in radians.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: Array of created pipes on success
+   :return: Array of Breps success.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createThickPipe(rail, radius0, radius1, localBlending, cap, fitRail, absoluteTolerance, angleToleranceRadians, multiple=false)
+
+   Creates a double-walled pipe.
+
+   :param rhino3dm.Curve rail: The rail, or path, curve.
+   :param float radius0: The first radius of the pipe.
+   :param float radius1: The second radius of the pipe.
+   :param bool localBlending: The shape blending. \
+      If True, Local (pipe radius stays constant at the ends and changes more rapidly in the middle) is applied. \
+      If False, Global (radius is linearly blended from one end to the other, creating pipes that taper from one radius to the other) is applied.
+   :param PipeCapMode cap: The end cap mode.
+   :param bool fitRail: If the curve is a polycurve of lines and arcs, the curve is fit and a single surface is created; \
+      otherwise the result is a Brep with joined surfaces created from the polycurve segments.
+   :param float absoluteTolerance: The sweeping and fitting tolerance. When in doubt, use the document's absolute tolerance.
+   :param float angleToleranceRadians: The angle tolerance. When in doubt, use the document's angle tolerance in radians.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: Array of Breps success.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createThickPipe1(rail, railRadiiParameters, radii0, radii1, localBlending, cap, fitRail, absoluteTolerance, angleToleranceRadians, multiple=false)
+
+   Creates a double-walled pipe.
+
+   :param rhino3dm.Curve rail: The rail, or path, curve.
+   :param list[float] railRadiiParameters: One or more normalized curve parameters where changes in radius occur. \
+      Important: curve parameters must be normalized - ranging between 0.0 and 1.0. \
+      Use Interval.NormalizedParameterAt to calculate these.
+   :param list[float] radii0: One or more radii for the first wall - one at each normalized curve parameter in railRadiiParameters.
+   :param list[float] radii1: One or more radii for the second wall - one at each normalized curve parameter in railRadiiParameters.
+   :param bool localBlending: The shape blending. \
+      If True, Local (pipe radius stays constant at the ends and changes more rapidly in the middle) is applied. \
+      If False, Global (radius is linearly blended from one end to the other, creating pipes that taper from one radius to the other) is applied.
+   :param PipeCapMode cap: The end cap mode.
+   :param bool fitRail: If the curve is a polycurve of lines and arcs, the curve is fit and a single surface is created; \
+      otherwise the result is a Brep with joined surfaces created from the polycurve segments.
+   :param float absoluteTolerance: The sweeping and fitting tolerance. When in doubt, use the document's absolute tolerance.
+   :param float angleToleranceRadians: The angle tolerance. When in doubt, use the document's angle tolerance in radians.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: Array of Breps success.
    :rtype: rhino3dm.Brep[]
 .. js:function:: RhinoCompute.Brep.createFromSweep(rail, shape, closed, tolerance, multiple=false)
 
@@ -716,6 +760,53 @@ RhinoCompute.Brep
 
    :return: Constructs a closed surface, continuing the surface past the last curve around to the \
       first curve. Available when you have selected three shape curves.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createPlanarUnion(breps, plane, tolerance, multiple=false)
+
+   CreatePlanarUnion
+
+   :param list[rhino3dm.Brep] breps: The planar regions on which to preform the union operation.
+   :param rhino3dm.Plane plane: The plane in which all the input breps lie
+   :param float tolerance: Tolerance to use for union operation.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of Brep results or None on failure.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createPlanarUnion1(b0, b1, plane, tolerance, multiple=false)
+
+   CreatePlanarUnion
+
+   :param rhino3dm.Brep b0: The first brep to union.
+   :param rhino3dm.Brep b1: The first brep to union.
+   :param rhino3dm.Plane plane: The plane in which all the input breps lie
+   :param float tolerance: Tolerance to use for union operation.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of Brep results or None on failure.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createPlanarDifference(b0, b1, plane, tolerance, multiple=false)
+
+   CreatePlanarDifference
+
+   :param rhino3dm.Brep b0: The first brep to intersect.
+   :param rhino3dm.Brep b1: The first brep to intersect.
+   :param rhino3dm.Plane plane: The plane in which all the input breps lie
+   :param float tolerance: Tolerance to use for Difference operation.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of Brep results or None on failure.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createPlanarIntersection(b0, b1, plane, tolerance, multiple=false)
+
+   CreatePlanarIntersection
+
+   :param rhino3dm.Brep b0: The first brep to intersect.
+   :param rhino3dm.Brep b1: The first brep to intersect.
+   :param rhino3dm.Plane plane: The plane in which all the input breps lie
+   :param float tolerance: Tolerance to use for intersection operation.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of Brep results or None on failure.
    :rtype: rhino3dm.Brep[]
 .. js:function:: RhinoCompute.Brep.createBooleanUnion(breps, tolerance, multiple=false)
 

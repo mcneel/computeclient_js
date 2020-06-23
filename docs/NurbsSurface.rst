@@ -3,6 +3,21 @@ RhinoCompute.NurbsSurface
 
 .. js:module:: RhinoCompute
 
+.. js:function:: RhinoCompute.NurbsSurface.createFromPlane(plane, uInterval, vInterval, uDegree, vDegree, uPointCount, vPointCount, multiple=false)
+
+   Creates a NURBS surface from a plane and additonal parameters.
+
+   :param rhino3dm.Plane plane: The plane.
+   :param rhino3dm.Interval uInterval: The interval describing the extends of the output surface in the U direction.
+   :param rhino3dm.Interval vInterval: The interval describing the extends of the output surface in the V direction.
+   :param int uDegree: The degree of the output surface in the U direction.
+   :param int vDegree: The degree of the output surface in the V direction.
+   :param int uPointCount: The number of control points of the output surface in the U direction.
+   :param int vPointCount: The number of control points of the output surface in the V direction.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A NURBS surface if successful, or None on failure.
+   :rtype: NurbsSurface
 .. js:function:: RhinoCompute.NurbsSurface.createCurveOnSurfacePoints(surface, fixedPoints, tolerance, periodic, initCount, levels, multiple=false)
 
    Computes a discrete spline curve on the surface. In other words, computes a sequence

@@ -257,7 +257,17 @@ RhinoCompute.Intersection
    :rtype: float
 .. js:function:: RhinoCompute.Intersection.meshPolyline(mesh, curve, multiple=false)
 
-   Finds the intersection of a mesh and a polyline.
+   Finds the intersection of a mesh and a polyline. Points are not guaranteed to be sorted along the polyline.
+
+   :param rhino3dm.Mesh mesh: A mesh to intersect.
+   :param PolylineCurve curve: A polyline curves to intersect.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of points: one for each face that was passed by the faceIds out reference.
+   :rtype: rhino3dm.Point3d[]
+.. js:function:: RhinoCompute.Intersection.meshPolylineSorted(mesh, curve, multiple=false)
+
+   Finds the intersection of a mesh and a polyline. Points are guaranteed to be sorted along the polyline.
 
    :param rhino3dm.Mesh mesh: A mesh to intersect.
    :param PolylineCurve curve: A polyline curves to intersect.
@@ -267,7 +277,17 @@ RhinoCompute.Intersection
    :rtype: rhino3dm.Point3d[]
 .. js:function:: RhinoCompute.Intersection.meshLine(mesh, line, multiple=false)
 
-   Finds the intersection of a mesh and a line
+   Finds the intersections of a mesh and a line. The points are not necessarily sorted.
+
+   :param rhino3dm.Mesh mesh: A mesh to intersect
+   :param Line line: The line to intersect with the mesh
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of points: one for each face that was passed by the faceIds out reference.
+   :rtype: rhino3dm.Point3d[]
+.. js:function:: RhinoCompute.Intersection.meshLineSorted(mesh, line, multiple=false)
+
+   Finds the intersections of a mesh and a line. Points are sorted along the line.
 
    :param rhino3dm.Mesh mesh: A mesh to intersect
    :param Line line: The line to intersect with the mesh

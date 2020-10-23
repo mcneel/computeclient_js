@@ -68,6 +68,42 @@ RhinoCompute.NurbsCurve
    :param rhino3dm.Vector3d endTangent: Unit tangent vector or Unset
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
+   :return: NURBS curve approximation of an arc on success
+   :rtype: rhino3dm.NurbsCurve
+.. js:function:: RhinoCompute.NurbsCurve.createSubDFriendly(points, interpolatePoints, periodicClosedCurve, multiple=false)
+
+   Create a NURBS curve, that is suitable for calculations like lofting SubD objects, through a sequence of curves.
+
+   :param list[rhino3dm.Point3d] points: An enumeration of points. Adjacent points must not be equal. \
+      If periodicClosedCurve is false, there must be at least two points. \
+      If periodicClosedCurve is true, there must be at least three points and it is not necessary to duplicate the first and last points. \
+      When periodicClosedCurve is True and the first and last points are equal, the duplicate last point is automatically ignored.
+   :param bool interpolatePoints: True if the curve should interpolate the points. False if points specify control point locations. \
+      In either case, the curve will begin at the first point and end at the last point.
+   :param bool periodicClosedCurve: True to create a periodic closed curve. Do not duplicate the start/end point in the point input.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A SubD friendly NURBS curve is successful, None otherwise.
+   :rtype: rhino3dm.NurbsCurve
+.. js:function:: RhinoCompute.NurbsCurve.createSubDFriendly1(curve, multiple=false)
+
+   Create a NURBS curve, that is suitable for calculations like lofting SubD objects, from an existing curve.
+
+   :param rhino3dm.Curve curve: Curve to rebuild as a SubD friendly curve.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A SubD friendly NURBS curve is successful, None otherwise.
+   :rtype: rhino3dm.NurbsCurve
+.. js:function:: RhinoCompute.NurbsCurve.createSubDFriendly2(curve, pointCount, periodicClosedCurve, multiple=false)
+
+   Create a NURBS curve, that is suitable for calculations like lofting SubD objects, from an existing curve.
+
+   :param rhino3dm.Curve curve: Curve to rebuild as a SubD friendly curve.
+   :param int pointCount: Desired number of control points. If periodicClosedCurve is true, the number must be >= 6, otherwise the number must be >= 4.
+   :param bool periodicClosedCurve: True if the SubD friendly curve should be closed and periodic. False in all other cases.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A SubD friendly NURBS curve is successful, None otherwise.
    :rtype: rhino3dm.NurbsCurve
 .. js:function:: RhinoCompute.NurbsCurve.createPlanarRailFrames(thisNurbsCurve, parameters, normal, multiple=false)
 
@@ -145,7 +181,7 @@ RhinoCompute.NurbsCurve
 .. js:function:: RhinoCompute.NurbsCurve.createSpiral(axisStart, axisDir, radiusPoint, pitch, turnCount, radius0, radius1, multiple=false)
 
    Creates a C1 cubic NURBS approximation of a helix or spiral. For a helix,
-   you may have radius0 == radius1. For a spiral radius0 == radius0 produces
+   you may have radius0 == radius1. For a spiral radius0 == radius1 produces
    a circle. Zero and negative radii are permissible.
 
    :param rhino3dm.Point3d axisStart: Helix's axis starting point or center of spiral.

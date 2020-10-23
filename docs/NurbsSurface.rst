@@ -3,6 +3,15 @@ RhinoCompute.NurbsSurface
 
 .. js:module:: RhinoCompute
 
+.. js:function:: RhinoCompute.NurbsSurface.createSubDFriendly(surface, multiple=false)
+
+   Create a bi-cubic SubD friendly surface from a surface.
+
+   :param rhino3dm.Surface surface: >Surface to rebuild as a SubD friendly surface.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A SubD friendly NURBS surface is successful, None otherwise.
+   :rtype: NurbsSurface
 .. js:function:: RhinoCompute.NurbsSurface.createFromPlane(plane, uInterval, vInterval, uDegree, vDegree, uPointCount, vPointCount, multiple=false)
 
    Creates a NURBS surface from a plane and additonal parameters.

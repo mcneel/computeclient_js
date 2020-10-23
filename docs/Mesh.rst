@@ -272,13 +272,6 @@ RhinoCompute.Mesh
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :rtype: rhino3dm.Mesh
-.. js:function:: RhinoCompute.Mesh.createFromSubDControlNet(subd, multiple=false)
-
-   Create a mesh from a SubD control net
-
-   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
-
-   :rtype: rhino3dm.Mesh
 .. js:function:: RhinoCompute.Mesh.createPatch(outerBoundary, angleToleranceRadians, pullbackSurface, innerBoundaryCurves, innerBothSideCurves, innerPoints, trimback, divisions, multiple=false)
 
    Construct a mesh patch from a variety of input geometry.
@@ -417,6 +410,21 @@ RhinoCompute.Mesh
 
    :return: Volume of the mesh.
    :rtype: float
+.. js:function:: RhinoCompute.Mesh.isPointInside(thisMesh, point, tolerance, strictlyIn, multiple=false)
+
+   Determines if a point is inside a solid mesh.
+
+   :param rhino3dm.Point3d point: 3d point to test.
+   :param float tolerance: (>=0) 3d distance tolerance used for ray-mesh intersection \
+      and determining strict inclusion.
+   :param bool strictlyIn: If strictlyIn is true, then point must be inside mesh by at least \
+      tolerance in order for this function to return true. \
+      If strictlyIn is false, then this function will return True if \
+      point is inside or the distance from point to a mesh face is <= tolerance.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if point is inside the solid mesh, False if not.
+   :rtype: bool
 .. js:function:: RhinoCompute.Mesh.smooth(thisMesh, smoothFactor, bXSmooth, bYSmooth, bZSmooth, bFixBoundaries, coordinateSystem, multiple=false)
 
    Smooths a mesh by averaging the positions of mesh vertices in a specified region.
@@ -481,6 +489,17 @@ RhinoCompute.Mesh
    :param list[int] edgeIndices: An array of mesh topology edge indices.
    :param bool modifyNormals: If true, the vertex normals on each side of the edge take the same value as the face to which they belong, giving the mesh a hard edge look. \
       If false, each of the vertex normals on either side of the edge is assigned the same value as the original normal that the pair is replacing, keeping a smooth look.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if successful, False otherwise.
+   :rtype: bool
+.. js:function:: RhinoCompute.Mesh.unweldVertices(thisMesh, topologyVertexIndices, modifyNormals, multiple=false)
+
+   Ensures that faces sharing a common topological vertex have unique indices into the  collection.
+
+   :param list[int] topologyVertexIndices: Topological vertex indices, from the  collection, to be unwelded. \
+      Use  to convert from vertex indices to topological vertex indices.
+   :param bool modifyNormals: If true, the new vertex normals will be calculated from the face normal.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: True if successful, False otherwise.
@@ -619,21 +638,22 @@ RhinoCompute.Mesh
 
    :return: An array of mesh parts representing the split result, or null: when no mesh intersected, or if a cancel stopped the computation.
    :rtype: rhino3dm.Mesh[]
-.. js:function:: RhinoCompute.Mesh.knife(thisMesh, meshes, tolerance, splitAtCoplanar, textLog, cancel, progress, multiple=false)
+.. js:function:: RhinoCompute.Mesh.split4(thisMesh, meshes, tolerance, splitAtCoplanar, createNgons, textLog, cancel, progress, multiple=false)
 
-   Creates edges along a collection of meshes, and return a copy if something happened. Knife does not split meshes into parts.
+   Split a mesh with a collection of meshes.
 
    :param list[rhino3dm.Mesh] meshes: Meshes to split with.
    :param float tolerance: A value for intersection tolerance. \
       WARNING! Correct values are typically in the (10e-8 - 10e-4) range.An option is to use the document tolerance diminished by a few orders or magnitude.
    :param bool splitAtCoplanar: If false, coplanar areas will not be separated.
+   :param bool createNgons: If true, creates ngons along the split ridge.
    :param TextLog textLog: A text log to write onto.
    :param CancellationToken cancel: A cancellation token.
    :param IProgress<double> progress: A progress reporter item. This can be null.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: An array of mesh parts representing the split result, or null: when no mesh intersected, or if a cancel stopped the computation.
-   :rtype: rhino3dm.Mesh
+   :rtype: rhino3dm.Mesh[]
 .. js:function:: RhinoCompute.Mesh.getOutlines(thisMesh, plane, multiple=false)
 
    Constructs the outlines of a mesh projected against a plane.

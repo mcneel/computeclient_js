@@ -124,19 +124,19 @@ RhinoCompute.Brep
    :rtype: rhino3dm.Brep
 .. js:function:: RhinoCompute.Brep.createFromCornerPoints(corner1, corner2, corner3, tolerance, multiple=false)
 
-   Makes a brep with one face.
+   Makes a Brep with one face from three corner points.
 
    :param rhino3dm.Point3d corner1: A first corner.
    :param rhino3dm.Point3d corner2: A second corner.
    :param rhino3dm.Point3d corner3: A third corner.
-   :param float tolerance: Minimum edge length without collapsing to a singularity.
+   :param float tolerance: Minimum edge length allowed before collapsing the side into a singularity.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A boundary representation, or None on error.
    :rtype: rhino3dm.Brep
 .. js:function:: RhinoCompute.Brep.createFromCornerPoints1(corner1, corner2, corner3, corner4, tolerance, multiple=false)
 
-   make a Brep with one face.
+   Makes a Brep with one face from four corner points.
 
    :param rhino3dm.Point3d corner1: A first corner.
    :param rhino3dm.Point3d corner2: A second corner.
@@ -410,6 +410,27 @@ RhinoCompute.Brep
 
    :return: Array of Brep sweep results
    :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createFromSweep2(rail, shapes, startPoint, endPoint, frameType, roadlikeNormal, closed, blendType, miterType, tolerance, rebuildType, rebuildPointCount, refitTolerance, multiple=false)
+
+   Sweep1 function that fits a surface through a series of profile curves that define the surface cross-sections
+   and one curve that defines a surface edge.
+
+   :param rhino3dm.Curve rail: Rail to sweep shapes along.
+   :param list[rhino3dm.Curve] shapes: Shape curves.
+   :param rhino3dm.Point3d startPoint: Optional starting point of sweep. Use Point3d.Unset if you do not want to include a start point.
+   :param rhino3dm.Point3d endPoint: Optional ending point of sweep. Use Point3d.Unset if you do not want to include an end point.
+   :param SweepFrame frameType: The frame type.
+   :param rhino3dm.Vector3d roadlikeNormal: The roadlike normal directoion. Use Vector3d.Unset if the frame type is not set to roadlike.
+   :param bool closed: Only matters if shapes are closed.
+   :param SweepBlend blendType: The shape blending type.
+   :param SweepMiter miterType: The mitering type.
+   :param SweepRebuild rebuildType: The rebuild style.
+   :param int rebuildPointCount: If rebuild == SweepRebuild.Rebuild, the number of points. Otherwise specify 0.
+   :param float refitTolerance: If rebuild == SweepRebuild.Refit, the refit tolerance. Otherwise, specify 0.0
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: Array of Brep sweep results.
+   :rtype: rhino3dm.Brep[]
 .. js:function:: RhinoCompute.Brep.createFromSweepSegmented(rail, shape, closed, tolerance, multiple=false)
 
    Sweep1 function that fits a surface through a profile curve that define the surface cross-sections
@@ -430,15 +451,37 @@ RhinoCompute.Brep
    and one curve that defines a surface edge. The Segmented version breaks the rail at curvature kinks
    and sweeps each piece separately, then put the results together into a Brep.
 
-   :param rhino3dm.Curve rail: Rail to sweep shapes along
-   :param list[rhino3dm.Curve] shapes: Shape curves
-   :param bool closed: Only matters if shapes are closed
-   :param float tolerance: Tolerance for fitting surface and rails
+   :param rhino3dm.Curve rail: Rail to sweep shapes along.
+   :param list[rhino3dm.Curve] shapes: Shape curves.
+   :param bool closed: Only matters if shapes are closed.
+   :param float tolerance: Tolerance for fitting surface and rails.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: Array of Brep sweep results
+   :return: Array of Brep sweep results.
    :rtype: rhino3dm.Brep[]
-.. js:function:: RhinoCompute.Brep.createFromSweep2(rail1, rail2, shape, closed, tolerance, multiple=false)
+.. js:function:: RhinoCompute.Brep.createFromSweepSegmented2(rail, shapes, startPoint, endPoint, frameType, roadlikeNormal, closed, blendType, miterType, tolerance, rebuildType, rebuildPointCount, refitTolerance, multiple=false)
+
+   Sweep1 function that fits a surface through a series of profile curves that define the surface cross-sections
+   and one curve that defines a surface edge. The Segmented version breaks the rail at curvature kinks
+   and sweeps each piece separately, then put the results together into a Brep.
+
+   :param rhino3dm.Curve rail: Rail to sweep shapes along.
+   :param list[rhino3dm.Curve] shapes: Shape curves.
+   :param rhino3dm.Point3d startPoint: Optional starting point of sweep. Use Point3d.Unset if you do not want to include a start point.
+   :param rhino3dm.Point3d endPoint: Optional ending point of sweep. Use Point3d.Unset if you do not want to include an end point.
+   :param SweepFrame frameType: The frame type.
+   :param rhino3dm.Vector3d roadlikeNormal: The roadlike normal directoion. Use Vector3d.Unset if the frame type is not set to roadlike.
+   :param bool closed: Only matters if shapes are closed.
+   :param SweepBlend blendType: The shape blending type.
+   :param SweepMiter miterType: The mitering type.
+   :param SweepRebuild rebuildType: The rebuild style.
+   :param int rebuildPointCount: If rebuild == SweepRebuild.Rebuild, the number of points. Otherwise specify 0.
+   :param float refitTolerance: If rebuild == SweepRebuild.Refit, the refit tolerance. Otherwise, specify 0.0
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: Array of Brep sweep results.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createFromSweep3(rail1, rail2, shape, closed, tolerance, multiple=false)
 
    General 2 rail sweep. If you are not producing the sweep results that you are after, then
    use the SweepTwoRail class with options to generate the swept geometry.
@@ -452,7 +495,7 @@ RhinoCompute.Brep
 
    :return: Array of Brep sweep results
    :rtype: rhino3dm.Brep[]
-.. js:function:: RhinoCompute.Brep.createFromSweep3(rail1, rail2, shapes, closed, tolerance, multiple=false)
+.. js:function:: RhinoCompute.Brep.createFromSweep4(rail1, rail2, shapes, closed, tolerance, multiple=false)
 
    General 2 rail sweep. If you are not producing the sweep results that you are after, then
    use the SweepTwoRail class with options to generate the swept geometry.
@@ -466,10 +509,10 @@ RhinoCompute.Brep
 
    :return: Array of Brep sweep results
    :rtype: rhino3dm.Brep[]
-.. js:function:: RhinoCompute.Brep.createFromSweep4(rail1, rail2, shapes, start, end, closed, tolerance, rebuild, rebuildPointCount, refitTolerance, preserveHeight, multiple=false)
+.. js:function:: RhinoCompute.Brep.createFromSweep5(rail1, rail2, shapes, start, end, closed, tolerance, rebuild, rebuildPointCount, refitTolerance, preserveHeight, multiple=false)
 
    Sweep2 function that fits a surface through profile curves that define the surface cross-sections
-   and two curves that defines a surface edge.
+   and two curves that defines the surface edges.
 
    :param rhino3dm.Curve rail1: Rail to sweep shapes along
    :param rhino3dm.Curve rail2: Rail to sweep shapes along
@@ -756,6 +799,33 @@ RhinoCompute.Brep
    :param LoftType loftType: type of loft to perform.
    :param bool closed: True if the last curve in this loft should be connected back to the first one.
    :param float refitTolerance: A distance to use in refitting, or 0 if you want to turn this parameter off.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: Constructs a closed surface, continuing the surface past the last curve around to the \
+      first curve. Available when you have selected three shape curves.
+   :rtype: rhino3dm.Brep[]
+.. js:function:: RhinoCompute.Brep.createFromLoft1(curves, start, end, StartTangent, EndTangent, StartTrim, EndTrim, loftType, closed, multiple=false)
+
+   Constructs one or more Breps by lofting through a set of curves, optionally matching start and
+   end tangents of surfaces when first and/or last loft curves are surface edges
+
+   :param list[rhino3dm.Curve] curves: The curves to loft through. This function will not perform any curve sorting. You must pass in \
+      curves in the order you want them lofted. This function will not adjust the directions of open \
+      curves. Use Curve.DoDirectionsMatch and Curve.Reverse to adjust the directions of open curves. \
+      This function will not adjust the seams of closed curves. Use Curve.ChangeClosedCurveSeam to \
+      adjust the seam of closed curves.
+   :param rhino3dm.Point3d start: Optional starting point of loft. Use Point3d.Unset if you do not want to include a start point. \
+      "start" and "StartTangent" cannot both be true.
+   :param rhino3dm.Point3d end: Optional ending point of loft. Use Point3d.Unset if you do not want to include an end point. \
+      "end and "EndTangent" cannot both be true.
+   :param bool StartTangent: If StartTangent is True and the first loft curve is a surface edge, the loft will match the tangent \
+      of the surface behind that edge.
+   :param bool EndTangent: If EndTangent is True and the first loft curve is a surface edge, the loft will match the tangent \
+      of the surface behind that edge.
+   :param BrepTrim StartTrim: BrepTrim from the surface edge where start tangent is to be matched
+   :param BrepTrim EndTrim: BrepTrim from the surface edge where end tangent is to be matched
+   :param LoftType loftType: type of loft to perform.
+   :param bool closed: True if the last curve in this loft should be connected back to the first one.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: Constructs a closed surface, continuing the surface past the last curve around to the \

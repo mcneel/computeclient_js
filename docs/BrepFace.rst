@@ -55,13 +55,24 @@ RhinoCompute.BrepFace
    :rtype: rhino3dm.Brep
 .. js:function:: RhinoCompute.BrepFace.isPointOnFace(thisBrepFace, u, v, multiple=false)
 
-   Tests if a parameter space point is on the interior of a trimmed face.
+   Tests if a parameter space point is in the active region of a face.
 
-   :param float u: Parameter space point u value.
-   :param float v: Parameter space point v value.
+   :param float u: Parameter space point U value.
+   :param float v: Parameter space point V value.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: A value describing the spatial relationship between the point and the face.
+   :return: A value describing the relationship between the point and the face.
+   :rtype: PointFaceRelation
+.. js:function:: RhinoCompute.BrepFace.isPointOnFace1(thisBrepFace, u, v, tolerance, multiple=false)
+
+   Tests if a parameter space point is in the active region of a face.
+
+   :param float u: Parameter space point U value.
+   :param float v: Parameter space point V value.
+   :param float tolerance: 3D tolerance used when checking to see if the point is on a face or inside of a loop.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A value describing the relationship between the point and the face.
    :rtype: PointFaceRelation
 .. js:function:: RhinoCompute.BrepFace.trimAwareIsoIntervals(thisBrepFace, direction, constantParameter, multiple=false)
 

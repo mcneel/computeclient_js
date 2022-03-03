@@ -3,13 +3,33 @@ RhinoCompute.SubD
 
 .. js:module:: RhinoCompute
 
+.. js:function:: RhinoCompute.SubD.joinSubDs(subdsToJoin, tolerance, joinedEdgesAreCreases, multiple=false)
+
+   Joins an enumeration of SubDs to form as few as possible resulting SubDs.
+   There may be more than one SubD in the result array.
+
+   :param IEnumerable<SubD> subdsToJoin: An enumeration of SubDs to join.
+   :param float tolerance: The join tolerance.
+   :param bool joinedEdgesAreCreases: If true, merged boundary edges will be creases. \
+      If false, merged boundary edges will be smooth.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :rtype: SubD[]
 .. js:function:: RhinoCompute.SubD.toBrep(thisSubD, options, multiple=false)
 
    Create a Brep based on this SubD geometry.
 
    :param SubDToBrepOptions options: The SubD to Brep conversion options. Use SubDToBrepOptions.Default \
-      for sensible defaults, currently packed faces and locally-G1 \
-      vertices in the output.
+      for sensible defaults. Currently, these return unpacked faces \
+      and locally-G1 vertices in the output Brep.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: A new Brep if successful, or None on failure.
+   :rtype: rhino3dm.Brep
+.. js:function:: RhinoCompute.SubD.toBrep1(thisSubD, multiple=false)
+
+   Create a Brep based on this SubD geometry, based on SubDToBrepOptions.Default options.
+
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A new Brep if successful, or None on failure.
@@ -32,6 +52,19 @@ RhinoCompute.SubD
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: A new SubD if successful, or None on failure.
+   :rtype: SubD
+.. js:function:: RhinoCompute.SubD.createFromSurface(surface, method, corners, multiple=false)
+
+   Create a SubD that approximates the surface. If the surface is a SubD
+   friendly NURBS surface and withCorners is true, then the SubD and input
+   surface will have the same geometry.
+
+   :param SubDFromSurfaceMethods method: Selects the method used to calculate the SubD.
+   :param bool corners: If the surface is open, then the corner vertices with be tagged as \
+      VertexTagCorner. This makes the resulting SubD have sharp corners to \
+      match the appearance of the input surface.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
    :rtype: SubD
 .. js:function:: RhinoCompute.SubD.offset(thisSubD, distance, solidify, multiple=false)
 
@@ -87,6 +120,28 @@ RhinoCompute.SubD
 
    :return: A new SubD if successful, or None on failure.
    :rtype: SubD
+.. js:function:: RhinoCompute.SubD.mergeAllCoplanarFaces(thisSubD, tolerance, multiple=false)
+
+   Merges adjacent coplanar faces into single faces.
+
+   :param float tolerance: Tolerance for determining when edges are adjacent. \
+      When in doubt, use the document's ModelAbsoluteTolerance property.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if faces were merged, False if no faces were merged.
+   :rtype: bool
+.. js:function:: RhinoCompute.SubD.mergeAllCoplanarFaces1(thisSubD, tolerance, angleTolerance, multiple=false)
+
+   Merges adjacent coplanar faces into single faces.
+
+   :param float tolerance: Tolerance for determining when edges are adjacent. \
+      When in doubt, use the document's ModelAbsoluteTolerance property.
+   :param float angleTolerance: Angle tolerance, in radians, for determining when faces are parallel. \
+      When in doubt, use the document's ModelAngleToleranceRadians property.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if faces were merged, False if no faces were merged.
+   :rtype: bool
 .. js:function:: RhinoCompute.SubD.interpolateSurfacePoints(thisSubD, surfacePoints, multiple=false)
 
    Modifies the SubD so that the SubD vertex limit surface points are

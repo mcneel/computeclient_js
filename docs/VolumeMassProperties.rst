@@ -47,7 +47,22 @@ RhinoCompute.VolumeMassProperties
 
    :return: The VolumeMassProperties for the given Brep or None on failure.
    :rtype: VolumeMassProperties
-.. js:function:: RhinoCompute.VolumeMassProperties.compute4(surface, multiple=false)
+.. js:function:: RhinoCompute.VolumeMassProperties.compute4(brep, volume, firstMoments, secondMoments, productMoments, relativeTolerance, absoluteTolerance, multiple=false)
+
+   Compute the VolumeMassProperties for a single Brep.
+
+   :param rhino3dm.Brep brep: Brep to measure.
+   :param bool volume: True to calculate volume.
+   :param bool firstMoments: True to calculate volume first moments, volume, and volume centroid.
+   :param bool secondMoments: True to calculate volume second moments.
+   :param bool productMoments: True to calculate volume product moments.
+   :param float relativeTolerance: The relative tolerance used for the calculation. In overloads of this function where tolerances are not specified, 1.0e-6 is used.
+   :param float absoluteTolerance: The absolute tolerancwe used for the calculation. In overloads of this function where tolerances are not specified, 1.0e-6 is used.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: The VolumeMassProperties for the given Brep or None on failure.
+   :rtype: VolumeMassProperties
+.. js:function:: RhinoCompute.VolumeMassProperties.compute5(surface, multiple=false)
 
    Compute the VolumeMassProperties for a single Surface.
 
@@ -56,7 +71,7 @@ RhinoCompute.VolumeMassProperties
 
    :return: The VolumeMassProperties for the given Surface or None on failure.
    :rtype: VolumeMassProperties
-.. js:function:: RhinoCompute.VolumeMassProperties.compute5(surface, volume, firstMoments, secondMoments, productMoments, multiple=false)
+.. js:function:: RhinoCompute.VolumeMassProperties.compute6(surface, volume, firstMoments, secondMoments, productMoments, multiple=false)
 
    Compute the VolumeMassProperties for a single Surface.
 
@@ -69,22 +84,22 @@ RhinoCompute.VolumeMassProperties
 
    :return: The VolumeMassProperties for the given Surface or None on failure.
    :rtype: VolumeMassProperties
-.. js:function:: RhinoCompute.VolumeMassProperties.compute6(geometry, multiple=false)
+.. js:function:: RhinoCompute.VolumeMassProperties.compute7(geometry, multiple=false)
 
    Computes the VolumeMassProperties for a collection of geometric objects.
    At present only Breps, Surfaces, and Meshes are supported.
 
-   :param list[rhino3dm.GeometryBase] geometry: Objects to include in the area computation.
+   :param list[rhino3dm.GeometryBase] geometry: Objects to include in the volume computation.
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: The VolumeMassProperties for the entire collection or None on failure.
    :rtype: VolumeMassProperties
-.. js:function:: RhinoCompute.VolumeMassProperties.compute7(geometry, volume, firstMoments, secondMoments, productMoments, multiple=false)
+.. js:function:: RhinoCompute.VolumeMassProperties.compute8(geometry, volume, firstMoments, secondMoments, productMoments, multiple=false)
 
    Computes the VolumeMassProperties for a collection of geometric objects.
    At present only Breps, Surfaces, Meshes and Planar Closed Curves are supported.
 
-   :param list[rhino3dm.GeometryBase] geometry: Objects to include in the area computation.
+   :param list[rhino3dm.GeometryBase] geometry: Objects to include in the volume computation.
    :param bool volume: True to calculate volume.
    :param bool firstMoments: True to calculate volume first moments, volume, and volume centroid.
    :param bool secondMoments: True to calculate volume second moments.

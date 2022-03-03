@@ -4275,18 +4275,4 @@ function base64ByteArray(bytes) {
   return base64
 }
 
-// NODE.JS
-
-// check if we're running in a browser or in node.js
-let _is_node = typeof exports === 'object' && typeof module === 'object'
-
-// polyfills
-if (_is_node && typeof require === 'function')
-{
-  if (typeof fetch !== 'function')
-    fetch = require('node-fetch')
-}
-
-// export RhinoCompute object
-if (_is_node)
-  module.exports = RhinoCompute
+export { RhinoCompute }

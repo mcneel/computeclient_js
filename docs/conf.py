@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = u'compute.rhino3d.js'
-copyright = u'2020, Robert McNeel & Associates'
+copyright = u'2022, Robert McNeel & Associates'
 author = u'Robert McNeel & Associates'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'0.12.1'
+release = u'0.14.0'
 
 
 # -- General configuration ---------------------------------------------------

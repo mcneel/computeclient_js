@@ -75,6 +75,34 @@ RhinoCompute.Curve
 
    :return: The filleted curve if successful. None on failure.
    :rtype: rhino3dm.Curve
+.. js:function:: RhinoCompute.Curve.joinCurves(inputCurves, joinTolerance, preserveDirection, multiple=false)
+
+   Joins a collection of curve segments together.
+
+   :param list[rhino3dm.Curve] inputCurves: An array, a list or any enumerable set of curve segments to join.
+   :param float joinTolerance: Joining tolerance, \
+      i.e. the distance between segment end-points that is allowed.
+   :param bool preserveDirection: If true, curve endpoints will be compared to curve start points.If false, all start and endpoints will be compared and copies of input curves may be reversed in output.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of joint curves. This array can be empty.
+   :rtype: rhino3dm.Curve[]
+.. js:function:: RhinoCompute.Curve.createArcLineArcBlend(startPt, startDir, endPt, endDir, radius, multiple=false)
+
+   Creates an arc-line-arc blend curve between two curves.
+   The output is generally a PolyCurve with three segments: arc, line, arc.
+   In some cases, one or more of those segments will be absent because they would have 0 length.
+   If there is only a single segment, the result will either be an ArcCurve or a LineCurve.
+
+   :param rhino3dm.Point3d startPt: Start of the blend curve.
+   :param rhino3dm.Vector3d startDir: Start direction of the blend curve.
+   :param rhino3dm.Point3d endPt: End of the blend curve.
+   :param rhino3dm.Vector3d endDir: End direction of the arc blend curve.
+   :param float radius: The radius of the arc segments.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: The blend curve if successful, False otherwise.
+   :rtype: rhino3dm.Curve
 .. js:function:: RhinoCompute.Curve.createArcBlend(startPt, startDir, endPt, endDir, controlPointLengthRatio, multiple=false)
 
    Creates a polycurve consisting of two tangent arc segments that connect two points and two directions.
@@ -156,6 +184,21 @@ RhinoCompute.Curve
 
    :return: The blend curve on success. None on failure
    :rtype: rhino3dm.Curve
+.. js:function:: RhinoCompute.Curve.createMatchCurve(curve0, reverse0, continuity, curve1, reverse1, preserve, average, multiple=false)
+
+   Changes a curve end to meet a specified curve with a specified continuity.
+
+   :param rhino3dm.Curve curve0: The open curve to change.
+   :param bool reverse0: Reverse the directon of the curve to change before matching.
+   :param BlendContinuity continuity: The continuity at the curve end.
+   :param rhino3dm.Curve curve1: The open curve to match.
+   :param bool reverse1: Reverse the directon of the curve to match before matching.
+   :param PreserveEnd preserve: Prevent modification of the curvature at the end opposite the match for curves with fewer than six control points.
+   :param bool average: Adjust both curves to match each other.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: The results of the curve matching, if successful, otherwise an empty array.
+   :rtype: rhino3dm.Curve[]
 .. js:function:: RhinoCompute.Curve.createTweenCurves(curve0, curve1, numCurves, multiple=false)
 
    Creates curves between two open or closed input curves. Uses the control points of the curves for finding tween curves.
@@ -239,38 +282,6 @@ RhinoCompute.Curve
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: >An array of joint curves. This array can be empty.
-   :rtype: rhino3dm.Curve[]
-.. js:function:: RhinoCompute.Curve.joinCurves(inputCurves, multiple=false)
-
-   Joins a collection of curve segments together.
-
-   :param list[rhino3dm.Curve] inputCurves: Curve segments to join.
-   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
-
-   :return: An array of curves which contains.
-   :rtype: rhino3dm.Curve[]
-.. js:function:: RhinoCompute.Curve.joinCurves1(inputCurves, joinTolerance, multiple=false)
-
-   Joins a collection of curve segments together.
-
-   :param list[rhino3dm.Curve] inputCurves: An array, a list or any enumerable set of curve segments to join.
-   :param float joinTolerance: Joining tolerance, \
-      i.e. the distance between segment end-points that is allowed.
-   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
-
-   :return: An array of joint curves. This array can be empty.
-   :rtype: rhino3dm.Curve[]
-.. js:function:: RhinoCompute.Curve.joinCurves2(inputCurves, joinTolerance, preserveDirection, multiple=false)
-
-   Joins a collection of curve segments together.
-
-   :param list[rhino3dm.Curve] inputCurves: An array, a list or any enumerable set of curve segments to join.
-   :param float joinTolerance: Joining tolerance, \
-      i.e. the distance between segment end-points that is allowed.
-   :param bool preserveDirection: If true, curve endpoints will be compared to curve start points.If false, all start and endpoints will be compared and copies of input curves may be reversed in output.
-   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
-
-   :return: An array of joint curves. This array can be empty.
    :rtype: rhino3dm.Curve[]
 .. js:function:: RhinoCompute.Curve.makeEndsMeet(curveA, adjustStartCurveA, curveB, adjustStartCurveB, multiple=false)
 
@@ -626,8 +637,9 @@ RhinoCompute.Curve
    :rtype: bool
 .. js:function:: RhinoCompute.Curve.duplicateSegments(thisCurve, multiple=false)
 
-   Polylines will be exploded into line segments. ExplodeCurves will
-   return the curves in topological order.
+   Duplicates curve segments.
+   Explodes polylines, polycurves and G1 discontinuous NURBS curves.
+   Single segment curves, such as lines, arcs, unkinked NURBS curves, are duplicated.
 
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
@@ -735,6 +747,18 @@ RhinoCompute.Curve
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
    :return: True on success, False on failure.
+   :rtype: bool
+.. js:function:: RhinoCompute.Curve.combineShortSegments(thisCurve, tolerance, multiple=false)
+
+   Looks for segments that are shorter than tolerance that can be combined.
+   For NURBS of degree greater than 1, spans are combined by removing
+   knots. Similarly for NURBS segments of polycurves. Otherwise,
+   RemoveShortSegments() is called. Does not change the domain, but it will
+   change the relative parameterization.
+
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: True if short segments were combined or removed. False otherwise.
    :rtype: bool
 .. js:function:: RhinoCompute.Curve.lcoalClosestPoint(thisCurve, testPoint, seed, multiple=false)
 

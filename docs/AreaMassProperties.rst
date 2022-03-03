@@ -75,7 +75,22 @@ RhinoCompute.AreaMassProperties
 
    :return: The AreaMassProperties for the given Brep or None on failure.
    :rtype: AreaMassProperties
-.. js:function:: RhinoCompute.AreaMassProperties.compute7(surface, multiple=false)
+.. js:function:: RhinoCompute.AreaMassProperties.compute7(brep, area, firstMoments, secondMoments, productMoments, relativeTolerance, absoluteTolerance, multiple=false)
+
+   Compute the AreaMassProperties for a single Brep.
+
+   :param rhino3dm.Brep brep: Brep to measure.
+   :param bool area: True to calculate area.
+   :param bool firstMoments: True to calculate area first moments, area, and area centroid.
+   :param bool secondMoments: True to calculate area second moments.
+   :param bool productMoments: True to calculate area product moments.
+   :param float relativeTolerance: The relative tolerance used for the calculation. In overloads of this function where tolerances are not specified, 1.0e-6 is used.
+   :param float absoluteTolerance: The absolute tolerancwe used for the calculation. In overloads of this function where tolerances are not specified, 1.0e-6 is used.
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: The AreaMassProperties for the given Brep or None on failure.
+   :rtype: AreaMassProperties
+.. js:function:: RhinoCompute.AreaMassProperties.compute8(surface, multiple=false)
 
    Computes an AreaMassProperties for a surface.
 
@@ -84,7 +99,7 @@ RhinoCompute.AreaMassProperties
 
    :return: The AreaMassProperties for the given Surface or None on failure.
    :rtype: AreaMassProperties
-.. js:function:: RhinoCompute.AreaMassProperties.compute8(surface, area, firstMoments, secondMoments, productMoments, multiple=false)
+.. js:function:: RhinoCompute.AreaMassProperties.compute9(surface, area, firstMoments, secondMoments, productMoments, multiple=false)
 
    Compute the AreaMassProperties for a single Surface.
 
@@ -97,7 +112,7 @@ RhinoCompute.AreaMassProperties
 
    :return: The AreaMassProperties for the given Surface or None on failure.
    :rtype: AreaMassProperties
-.. js:function:: RhinoCompute.AreaMassProperties.compute9(geometry, multiple=false)
+.. js:function:: RhinoCompute.AreaMassProperties.compute10(geometry, multiple=false)
 
    Computes the Area properties for a collection of geometric objects.
    At present only Breps, Surfaces, Meshes and Planar Closed Curves are supported.
@@ -107,7 +122,7 @@ RhinoCompute.AreaMassProperties
 
    :return: The Area properties for the entire collection or None on failure.
    :rtype: AreaMassProperties
-.. js:function:: RhinoCompute.AreaMassProperties.compute10(geometry, area, firstMoments, secondMoments, productMoments, multiple=false)
+.. js:function:: RhinoCompute.AreaMassProperties.compute11(geometry, area, firstMoments, secondMoments, productMoments, multiple=false)
 
    Computes the AreaMassProperties for a collection of geometric objects.
    At present only Breps, Surfaces, Meshes and Planar Closed Curves are supported.

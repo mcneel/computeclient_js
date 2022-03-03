@@ -257,7 +257,7 @@ RhinoCompute.Intersection
    :rtype: float
 .. js:function:: RhinoCompute.Intersection.meshPolyline(mesh, curve, multiple=false)
 
-   Finds the intersection of a mesh and a polyline. Points are not guaranteed to be sorted along the polyline.
+   Finds the intersection of a mesh and a polyline. Starting from version 7, points are always sorted along the polyline.
 
    :param rhino3dm.Mesh mesh: A mesh to intersect.
    :param PolylineCurve curve: A polyline curves to intersect.
@@ -283,7 +283,19 @@ RhinoCompute.Intersection
    :param Line line: The line to intersect with the mesh
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: An array of points: one for each face that was passed by the faceIds out reference.
+   :return: An array of points: one for each face that was passed by the faceIds out reference. \
+      Empty if no items are found.
+   :rtype: rhino3dm.Point3d[]
+.. js:function:: RhinoCompute.Intersection.meshLine1(mesh, line, multiple=false)
+
+   Finds the intersections of a mesh and a line.
+
+   :param rhino3dm.Mesh mesh: A mesh to intersect
+   :param Line line: The line to intersect with the mesh
+   :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
+
+   :return: An array of points: one for each face that was passed by the faceIds out reference. \
+      Empty if no items are found.
    :rtype: rhino3dm.Point3d[]
 .. js:function:: RhinoCompute.Intersection.meshLineSorted(mesh, line, multiple=false)
 
@@ -293,7 +305,8 @@ RhinoCompute.Intersection
    :param Line line: The line to intersect with the mesh
    :param bool multiple: (default False) If True, all parameters are expected as lists of equal length and input will be batch processed
 
-   :return: An array of points: one for each face that was passed by the faceIds out reference.
+   :return: An array of points: one for each face that was passed by the faceIds out reference. \
+      Empty if no items are found.
    :rtype: rhino3dm.Point3d[]
 .. js:function:: RhinoCompute.Intersection.rayShoot(ray, geometry, maxReflections, multiple=false)
 
